@@ -67,7 +67,7 @@ function pick(value: T) {
       v-if="open"
       role="listbox"
       :aria-label="label"
-      class="absolute top-[calc(100%+6px)] left-0 z-30 max-h-72 min-w-full w-max overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-1.5 shadow-[0_20px_40px_-16px_rgba(16,24,40,.3)]"
+      class="absolute top-[calc(100%+6px)] left-0 z-30 max-h-72 min-w-full w-max overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-1.5 shadow-[0_20px_40px_-16px_rgba(16,24,40,.3)] dark:border-white/10 dark:bg-[#1a2540] dark:shadow-[0_24px_48px_-12px_rgba(0,0,0,.7)]"
     >
       <li
         v-for="option in options"
@@ -79,8 +79,10 @@ function pick(value: T) {
           type="button"
           :class="
             cn(
-              'flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] transition-colors hover:bg-zinc-100',
-              option.value === model ? 'font-semibold text-zinc-950' : 'text-zinc-700',
+              'flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] transition-colors hover:bg-zinc-100 dark:hover:bg-[#e12526]/15',
+              option.value === model
+                ? 'font-semibold text-zinc-950 dark:bg-[#e12526]/25'
+                : 'text-zinc-700',
             )
           "
           @click="pick(option.value)"
@@ -104,7 +106,10 @@ function pick(value: T) {
           >
             {{ option.count }}
           </span>
-          <Check v-if="option.value === model" class="size-4 shrink-0 text-zinc-950" />
+          <Check
+            v-if="option.value === model"
+            class="size-4 shrink-0 text-zinc-950 dark:text-[#ff5b5d]"
+          />
         </button>
       </li>
     </ul>

@@ -1,10 +1,9 @@
-<!-- Фон сайдбара: красный градиент с мягкой подсветкой сверху -->
+<!-- Фон сайдбара: ровный красный цвет логотипа -->
 <template>
   <div
     aria-hidden="true"
     class="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
   >
     <div class="sidebar-fill absolute inset-0" />
-    <div class="absolute -top-24 -left-16 size-64 rounded-full bg-white/20 blur-3xl" />
   </div>
 </template>

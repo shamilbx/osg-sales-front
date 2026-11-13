@@ -206,7 +206,7 @@ const isActive = (to: string) => isActivePath(to, route.path)
             </template>
             <span
               v-else-if="item.badge"
-              class="absolute top-2 right-2.5 size-2 rounded-full bg-brand-pink ring-2 ring-[#c4252f]"
+              class="absolute top-2 right-2.5 size-2 rounded-full bg-brand-pink ring-2 ring-[#e12526]"
             />
           </RouterLink>
         </nav>

@@ -146,22 +146,13 @@ function openCompany(company: Company) {
   void router.push(`/companies/${company.id}`)
 }
 
-function openCreate() {
-  selectedId.value = null
-  drawerOpen.value = true
-  if (routeId.value) void router.replace('/companies')
-}
-
-function onCreated(company: Company) {
-  selectedId.value = company.id
-  void router.replace(`/companies/${company.id}`)
-  void load()
-}
+const openCreate = () => router.push('/companies/new')
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
-    <header class="flex flex-wrap items-end justify-between gap-3">
+  <!-- Шапка страницы, фильтры и пагинация закреплены, при прокрутке движется только список -->
+  <div class="flex h-full min-h-0 flex-col gap-4">
+    <header class="flex shrink-0 flex-wrap items-end justify-between gap-3">
       <div>
         <h1 class="text-2xl font-semibold tracking-tight text-zinc-950">{{ $t('Компании') }}</h1>
         <p class="mt-1 text-sm text-zinc-700">
@@ -183,7 +174,7 @@ function onCreated(company: Company) {
       {{ error }}
     </p>
 
-    <div class="flex flex-wrap items-center gap-2">
+    <div class="flex shrink-0 flex-wrap items-center gap-2">
       <label class="relative min-w-[220px] flex-1 sm:max-w-[340px]">
         <span class="sr-only">{{ $t('Поиск компаний') }}</span>
         <Search
@@ -229,10 +220,14 @@ function onCreated(company: Company) {
       />
     </div>
 
-    <section class="overflow-hidden rounded-[24px] border border-zinc-100 bg-white">
-      <div class="overflow-x-auto">
+    <section
+      class="flex min-h-[260px] min-w-0 flex-1 flex-col overflow-hidden rounded-[24px] border border-zinc-100 bg-white"
+    >
+      <div class="min-h-0 flex-1 overflow-auto">
         <table class="w-full min-w-[860px] text-left">
-          <thead class="border-b border-zinc-100 bg-zinc-50/60 text-xs text-zinc-500">
+          <thead
+            class="sticky top-0 z-10 border-b border-zinc-100 bg-zinc-50 text-xs text-zinc-500"
+          >
             <tr>
               <th class="px-5 py-3 font-medium">{{ $t('Компания') }}</th>
               <th class="px-5 py-3 font-medium">{{ $t('Отрасль и сфера') }}</th>
@@ -319,14 +314,14 @@ function onCreated(company: Company) {
           </tbody>
         </table>
       </div>
-      <TablePagination v-model="page" v-model:page-size="pageSize" :total="total" />
+      <TablePagination
+        v-model="page"
+        v-model:page-size="pageSize"
+        :total="total"
+        class="shrink-0"
+      />
     </section>
 
-    <CompanyDrawer
-      v-model:open="drawerOpen"
-      :company-id="selectedId"
-      @changed="load"
-      @created="onCreated"
-    />
+    <CompanyDrawer v-model:open="drawerOpen" :company-id="selectedId" @changed="load" />
   </div>
 </template>

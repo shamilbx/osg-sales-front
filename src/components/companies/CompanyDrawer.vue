@@ -17,7 +17,6 @@ import {
 } from '@lucide/vue'
 import { ApiError } from '@/api/http'
 import {
-  createCompany,
   deleteContact,
   getCompany,
   setCompanyArchived,
@@ -49,11 +48,11 @@ import {
   websiteError,
 } from '@/components/companies/validation'
 
-// companyId: null — создание новой компании, иначе карточка существующей
+// Карточка существующей компании; новая создаётся на отдельной странице /companies/new
 const props = defineProps<{ companyId: number | null }>()
 const open = defineModel<boolean>('open', { required: true })
-// После любого сохранения: список за drawer'ом обновляется, а при создании открывается карточка новой компании
-const emit = defineEmits<{ changed: []; created: [company: Company] }>()
+// После любого сохранения список за drawer'ом обновляется
+const emit = defineEmits<{ changed: [] }>()
 
 const router = useRouter()
 const toast = useToast()
@@ -72,14 +71,12 @@ const editingContact = ref<Contact | null | undefined>(undefined)
 // Перенос в архив подтверждается вторым нажатием
 const confirmArchive = ref(false)
 
-const isNew = computed(() => props.companyId === null)
 const isArchived = computed(() => company.value?.status === 'archived')
 const isSuperAdmin = computed(() => me.value?.role === 'superadmin')
 const canAssign = computed(() => me.value?.role === 'superadmin' || me.value?.role === 'director')
 
 // Менеджер правит только свои компании, суперадмин — любые; архивная доступна только для чтения
 const canEdit = computed(() => {
-  if (isNew.value) return me.value?.role === 'superadmin' || me.value?.role === 'manager'
   if (!company.value || isArchived.value) return false
   return (
     isSuperAdmin.value || (me.value?.role === 'manager' && company.value.owner_id === me.value.id)
@@ -88,7 +85,6 @@ const canEdit = computed(() => {
 // Архивировать и возвращать из архива может тот, кто вправе править компанию
 const canArchive = computed(
   () =>
-    !isNew.value &&
     company.value !== null &&
     (isSuperAdmin.value ||
       (me.value?.role === 'manager' && company.value.owner_id === me.value.id)),
@@ -265,17 +261,12 @@ async function save() {
         Object.entries(form.social_links).filter(([, value]) => value?.trim()),
       ),
     }
-    if (props.companyId === null) {
-      const created = await createCompany(payload)
-      toast.success(t('Компания создана'), created.name)
-      emit('created', created)
-    } else {
-      company.value = await updateCompany(props.companyId, payload)
-      fillForm(company.value)
-      version.value++
-      toast.success(t('Данные компании обновлены'))
-      emit('changed')
-    }
+    if (props.companyId === null) return
+    company.value = await updateCompany(props.companyId, payload)
+    fillForm(company.value)
+    version.value++
+    toast.success(t('Данные компании обновлены'))
+    emit('changed')
   } catch (error) {
     showServerError(error, t('Не удалось сохранить компанию'))
   } finally {
@@ -368,7 +359,7 @@ async function removeContact(contact: Contact) {
 
 const openDuplicate = () => duplicate.value && router.push(`/companies/${duplicate.value.found.id}`)
 
-const title = computed(() => (isNew.value ? t('Новая компания') : (company.value?.name ?? '…')))
+const title = computed(() => company.value?.name ?? '…')
 
 const fieldLabels: Record<string, string> = {
   get name() {
@@ -499,7 +490,7 @@ const ownerOptions = computed(() =>
         }}
       </div>
       <p
-        v-else-if="!isNew && !canEdit"
+        v-else-if="company && !canEdit"
         class="mb-5 rounded-2xl bg-zinc-50 px-4 py-3 text-sm text-zinc-700 ring-1 ring-zinc-200"
       >
         {{
@@ -842,7 +833,7 @@ const ownerOptions = computed(() =>
             class="h-11 rounded-xl bg-zinc-950 px-5 text-sm font-semibold text-white transition-colors hover:bg-zinc-800 disabled:opacity-60"
             :disabled="saving"
           >
-            {{ isNew ? $t('Создать компанию') : $t('Сохранить') }}
+            {{ $t('Сохранить') }}
           </button>
         </div>
       </div>

@@ -203,6 +203,11 @@
 .dark .bg-ink .bg-white\/20 {
   background-color: rgb(11 16 32 / 0.14);
 }
+/* Приглушённый текст на таких кнопках (text-white/70): подпись выбранного фильтра («Отрасль:») */
+.dark .bg-zinc-950 [class*='text-white/'],
+.dark .bg-ink [class*='text-white/'] {
+  color: rgb(11 16 32 / 0.6);
+}
 .dark .bg-zinc-950\/30 {
   background-color: rgb(0 0 0 / 0.55);
 }
@@ -226,6 +231,20 @@
 }
 .dark .text-amber-700 {
   color: #fcd34d;
+}
+.dark .ring-white {
+  --tw-ring-color: var(--surface);
+}
+.dark .text-amber-900 {
+  color: #fde68a;
+}
+.dark .border-amber-300,
+.dark .ring-amber-200 {
+  border-color: rgb(245 158 11 / 0.4);
+  --tw-ring-color: rgb(245 158 11 / 0.4);
+}
+.dark .hover\:bg-amber-100:hover {
+  background-color: rgb(245 158 11 / 0.22);
 }
 .dark .bg-sky-50 {
   background-color: rgb(14 165 233 / 0.16);
@@ -267,12 +286,12 @@
   background-color: var(--surface);
 }
 
-/* Сайдбар — насыщенный красный в цвет логотипа OSG: от яркого вверху к глубокому бордовому внизу */
+/* Сайдбар — красный точно как у логотипа OSG (#e12526) */
 .sidebar-glass {
-  background-color: #b8202b;
+  background-color: #e12526;
 }
 .sidebar-fill {
-  background: linear-gradient(to bottom, #e0343a, #c4252f, #94171f);
+  background-color: #e12526;
 }
 
 /* Стеклянные панели создают свои слои; панель с открытым календарём поднимаем над соседними */
