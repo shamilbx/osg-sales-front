@@ -4,7 +4,7 @@ import { useLocalStorage } from '@vueuse/core'
 import { ArrowUpDown, Check, Eye, EyeOff, LayoutGrid } from '@lucide/vue'
 import { modules } from '@/config/navigation'
 import { cn } from '@/lib/utils'
-import BasePanel from '@/components/dashboard/BasePanel.vue'
+import AppHeader from '@/components/layout/AppHeader.vue'
 import HubHero from '@/components/hub/HubHero.vue'
 import ModuleCard from '@/components/hub/ModuleCard.vue'
 
@@ -37,9 +37,18 @@ const actionButton =
 
 <template>
   <div class="flex flex-col gap-4">
-    <HubHero />
+    <!-- Шапка — отдельный контейнер -->
+    <section
+      class="glass rounded-[24px] border border-zinc-200 p-3 shadow-[0_1px_2px_rgba(16,24,40,.04)] sm:p-4"
+    >
+      <AppHeader hub />
+    </section>
 
-    <BasePanel class="flex flex-col gap-4">
+    <!-- Баннер и заголовок списка модулей — второй контейнер -->
+    <section
+      class="glass flex flex-col gap-4 rounded-[24px] border border-zinc-200 p-3 shadow-[0_1px_2px_rgba(16,24,40,.04)] sm:p-4"
+    >
+      <HubHero />
       <div class="flex flex-wrap items-center justify-between gap-3">
         <h2
           class="flex items-center gap-2.5 rounded-2xl bg-zinc-50 px-3.5 py-2 text-lg font-semibold tracking-tight text-zinc-950 ring-1 ring-zinc-100"
@@ -83,19 +92,19 @@ const actionButton =
           </button>
         </div>
       </div>
+    </section>
 
-      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <ModuleCard
-          v-for="(module, index) in ordered"
-          :key="module.id"
-          :module="module"
-          :show-stats="showStats"
-          :editing="editing"
-          :is-first="index === 0"
-          :is-last="index === ordered.length - 1"
-          @move="move(index, $event)"
-        />
-      </div>
-    </BasePanel>
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <ModuleCard
+        v-for="(module, index) in ordered"
+        :key="module.id"
+        :module="module"
+        :show-stats="showStats"
+        :editing="editing"
+        :is-first="index === 0"
+        :is-last="index === ordered.length - 1"
+        @move="move(index, $event)"
+      />
+    </div>
   </div>
 </template>

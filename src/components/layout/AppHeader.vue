@@ -13,7 +13,7 @@ import LanguageMenu from '@/components/layout/LanguageMenu.vue'
 import ModulesMenu from '@/components/layout/ModulesMenu.vue'
 import NotificationsMenu from '@/components/layout/NotificationsMenu.vue'
 
-// hub — режим центра управления: логотип слева, кнопок бокового меню нет
+// hub — режим центра управления: кнопок бокового меню нет
 defineProps<{ sidebarCollapsed?: boolean; hub?: boolean }>()
 defineEmits<{ openMenu: []; toggleSidebar: [] }>()
 
@@ -64,9 +64,7 @@ const iconButton =
         <PanelLeftClose v-else class="size-5" />
       </Button>
 
-      <div v-if="hub" class="shrink-0">
-        <AppLogo />
-      </div>
+      <AppLogo class="hidden sm:flex" />
 
       <div class="hidden xl:block">
         <ModulesMenu />
