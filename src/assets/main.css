@@ -267,12 +267,12 @@
   background-color: var(--surface);
 }
 
-/* Сайдбар — сплошной тёмно-синий */
+/* Сайдбар — насыщенный красный в цвет логотипа OSG: от яркого вверху к глубокому бордовому внизу */
 .sidebar-glass {
-  background-color: #0b1736;
+  background-color: #b8202b;
 }
 .sidebar-fill {
-  background: linear-gradient(to bottom, #0f1d42, #0b1736, #070f21);
+  background: linear-gradient(to bottom, #e0343a, #c4252f, #94171f);
 }
 
 /* Стеклянные панели создают свои слои; панель с открытым календарём поднимаем над соседними */

@@ -1,6 +1,14 @@
 import { t } from '@/i18n'
 import type { Component } from 'vue'
-import { LayoutDashboard, LifeBuoy, Settings, TrendingUp, UsersRound } from '@lucide/vue'
+import {
+  Building2,
+  LayoutDashboard,
+  LifeBuoy,
+  ListTree,
+  Settings,
+  TrendingUp,
+  UsersRound,
+} from '@lucide/vue'
 import type { Tone } from '@/lib/types'
 import type { Role } from '@/composables/useAuth'
 
@@ -51,6 +59,13 @@ export const modules: NavModule[] = [
         to: '/',
         icon: LayoutDashboard,
       },
+      {
+        get title() {
+          return t('Компании')
+        },
+        to: '/companies',
+        icon: Building2,
+      },
     ],
   },
 ]
@@ -62,6 +77,14 @@ export const systemNav: NavItem[] = [
     },
     to: '/users',
     icon: UsersRound,
+    roles: ['superadmin'],
+  },
+  {
+    get title() {
+      return t('Справочники')
+    },
+    to: '/dictionaries',
+    icon: ListTree,
     roles: ['superadmin'],
   },
   {
@@ -91,7 +114,7 @@ export const canSee = (item: NavItem, role: Role | undefined) =>
   !item.roles || (role !== undefined && item.roles.includes(role))
 
 /** Разделы со своей страницей; остальным пунктам меню показывается заглушка */
-const pages = ['/', '/settings', '/users']
+const pages = ['/', '/settings', '/users', '/companies', '/dictionaries']
 
 /** Разделы, для которых пока показывается заглушка */
 export const placeholderSlugs = allNav

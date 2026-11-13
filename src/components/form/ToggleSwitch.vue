@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
 
-defineProps<{ label: string }>()
+// hideLabel — подпись остаётся для скринридеров, но на экране её нет: переключатель в тесной строке списка
+defineProps<{ label: string; hideLabel?: boolean }>()
 const model = defineModel<boolean>({ required: true })
 </script>
 
@@ -30,6 +31,6 @@ const model = defineModel<boolean>({ required: true })
         "
       />
     </span>
-    {{ label }}
+    <span :class="cn(hideLabel && 'sr-only')">{{ label }}</span>
   </button>
 </template>

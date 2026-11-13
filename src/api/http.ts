@@ -7,10 +7,13 @@ const TOKEN_KEY = 'ambassador:token'
 
 export class ApiError extends Error {
   readonly status: number
+  /** Тело ответа целиком: у ошибок бывают дополнительные поля, например duplicate */
+  readonly data: Record<string, unknown> | null
 
-  constructor(message: string, status: number) {
+  constructor(message: string, status: number, data: Record<string, unknown> | null = null) {
     super(message)
     this.status = status
+    this.data = data
   }
 }
 
@@ -79,7 +82,7 @@ export async function request<T>(path: string, options: Options = {}): Promise<T
   const data = await response.json().catch(() => null)
   if (!response.ok) {
     if (response.status === 401 && options.auth !== false) onUnauthorized?.()
-    throw new ApiError(data?.error ?? t('Ошибка сервера'), response.status)
+    throw new ApiError(data?.error ?? t('Ошибка сервера'), response.status, data)
   }
   return data as T
 }

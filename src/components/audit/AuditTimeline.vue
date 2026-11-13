@@ -3,7 +3,7 @@ import { t } from '@/i18n'
 import { ref, watch } from 'vue'
 import { History } from '@lucide/vue'
 import { ApiError } from '@/api/http'
-import { listAudit, type AuditEntry } from '@/api/audit'
+import { listAudit, type AuditChange, type AuditEntry } from '@/api/audit'
 import { formatDateTime } from '@/lib/dates'
 
 const props = defineProps<{
@@ -43,6 +43,27 @@ const actionLabels: Record<string, string> = {
   get password_change() {
     return t('Смена пароля')
   },
+  get archive() {
+    return t('Перенос в архив')
+  },
+  get restore() {
+    return t('Возврат из архива')
+  },
+  get owner_change() {
+    return t('Смена ответственного')
+  },
+  get contact_create() {
+    return t('Добавлен контакт')
+  },
+  get contact_update() {
+    return t('Изменён контакт')
+  },
+  get contact_delete() {
+    return t('Удалён контакт')
+  },
+  get primary_change() {
+    return t('Смена основного контакта')
+  },
 }
 
 async function load(more = false) {
@@ -69,6 +90,14 @@ watch(
   () => load(),
   { immediate: true },
 )
+
+const filled = (value: unknown) => value !== undefined && value !== null && value !== ''
+
+/** «Было → стало»; у новых значений только «стало», у удалённых «было → —» */
+function describe(field: string, change: AuditChange) {
+  if (!filled(change.from)) return show(field, change.to)
+  return `${show(field, change.from)} → ${show(field, change.to)}`
+}
 
 function show(field: string, value: unknown) {
   if (value === undefined || value === null || value === '') return '—'
@@ -109,9 +138,7 @@ function show(field: string, value: unknown) {
           <li v-for="(change, field) in entry.changes" :key="field" class="text-zinc-700">
             <span class="mr-1 font-medium text-zinc-950">{{ fieldLabels[field] ?? field }}:</span>
             <template v-if="field === 'password'"> {{ $t('изменён') }}</template>
-            <template v-else>
-              {{ show(field, change.from) }} → {{ show(field, change.to) }}</template
-            >
+            <template v-else> {{ describe(field, change) }}</template>
           </li>
         </ul>
       </li>

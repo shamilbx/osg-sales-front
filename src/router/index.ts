@@ -32,6 +32,18 @@ const router = createRouter({
     { path: '/', name: 'dashboard', component: DashboardView },
     { path: '/settings', name: 'settings', component: () => import('@/views/SettingsView.vue') },
     {
+      // /companies/:id открывает ту же страницу с карточкой компании: по такой ссылке ведут уведомления
+      path: '/companies/:id?',
+      name: 'companies',
+      component: () => import('@/views/CompaniesView.vue'),
+    },
+    {
+      path: '/dictionaries',
+      name: 'dictionaries',
+      component: () => import('@/views/DictionariesView.vue'),
+      meta: { roles: ['superadmin'] },
+    },
+    {
       path: '/users',
       name: 'users',
       component: () => import('@/views/UsersView.vue'),
