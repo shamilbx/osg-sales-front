@@ -4,7 +4,6 @@ import { computed, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ArrowRight, Eye, EyeOff, Lock, Plane, UserRound, Wand2 } from '@lucide/vue'
 import { ApiError } from '@/api/http'
-import LoginBackdrop from '@/components/auth/LoginBackdrop.vue'
 import LanguageMenu from '@/components/layout/LanguageMenu.vue'
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/composables/useAuth'
@@ -18,9 +17,14 @@ const errors = reactive({ username: '', password: '', form: '' })
 const showPassword = ref(false)
 const loading = ref(false)
 
-// Быстрый вход при разработке. Кнопка есть только в dev-режиме: в сборку для сервера пароль не попадает
-const DEMO_CREDENTIALS = { username: 'superadmin', password: 'superadmin123' }
-const showDemo = import.meta.env.DEV
+// Быстрый вход при разработке. Логин и пароль берутся из .env.local (VITE_DEV_USERNAME и VITE_DEV_PASSWORD),
+// в код и в репозиторий они не попадают. Кнопка есть только в dev-режиме и только если оба значения заданы
+const DEMO_CREDENTIALS = {
+  username: String(import.meta.env.VITE_DEV_USERNAME ?? ''),
+  password: String(import.meta.env.VITE_DEV_PASSWORD ?? ''),
+}
+const showDemo =
+  import.meta.env.DEV && Boolean(DEMO_CREDENTIALS.username && DEMO_CREDENTIALS.password)
 
 function fillDemo() {
   form.username = DEMO_CREDENTIALS.username
@@ -60,25 +64,20 @@ async function onSubmit() {
 }
 
 const fieldClass =
-  'h-12 rounded-xl border-white/70 bg-white/50 pr-4 pl-11 text-[15px] text-zinc-900 transition-colors placeholder:text-zinc-500/80 hover:border-white hover:bg-white/65 focus-visible:border-brand-blue focus-visible:bg-white/85 focus-visible:ring-brand-blue/20 md:text-[15px] dark:bg-white/50'
+  'h-12 rounded-xl border-zinc-200 bg-white pr-4 pl-11 text-[15px] text-zinc-900 transition-colors placeholder:text-zinc-400 hover:border-zinc-300 focus-visible:border-brand-blue focus-visible:ring-brand-blue/20 md:text-[15px] dark:bg-white'
 </script>
 
 <template>
-  <div class="relative grid min-h-screen place-items-center px-4 py-10">
-    <LoginBackdrop />
-
+  <div class="relative grid min-h-screen place-items-center bg-white px-4 py-10">
     <div
-      class="absolute top-4 right-4 z-20 rounded-xl border border-white/60 bg-white/40 backdrop-blur-md sm:top-6 sm:right-6"
+      class="absolute top-4 right-4 z-20 rounded-xl border border-zinc-200 bg-white sm:top-6 sm:right-6"
     >
       <LanguageMenu />
     </div>
 
     <main class="relative w-full max-w-[440px]">
-      <!-- Двойная рамка из стекла, как в референсе -->
-      <div class="rounded-[36px] border border-white/60 bg-transparent p-2 backdrop-blur-md">
-        <div
-          class="rounded-[28px] border border-white/70 bg-transparent p-7 text-zinc-900 backdrop-blur-2xl backdrop-saturate-150 sm:p-9"
-        >
+      <div class="rounded-[28px] border border-zinc-200 bg-white p-7 text-zinc-900 sm:p-9">
+        <div>
           <div class="flex items-center gap-2.5">
             <span class="grid size-10 place-items-center rounded-[14px] bg-zinc-950 text-white">
               <Plane class="size-5 -rotate-45" :stroke-width="2.25" />
@@ -185,7 +184,7 @@ const fieldClass =
               <button
                 v-if="showDemo"
                 type="button"
-                class="flex items-center gap-1.5 rounded-lg border border-white/70 bg-white/50 px-3 py-1.5 text-xs font-medium text-zinc-700 transition-colors hover:bg-white/80 hover:text-zinc-950"
+                class="flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 transition-colors hover:bg-zinc-50 hover:text-zinc-950"
                 @click="fillDemo"
               >
                 <Wand2 class="size-3.5" />

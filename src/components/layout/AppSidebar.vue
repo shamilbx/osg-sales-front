@@ -11,7 +11,7 @@ import {
   RotateCcw,
 } from '@lucide/vue'
 import { cn } from '@/lib/utils'
-import { isActivePath, systemNav, type NavItem } from '@/config/navigation'
+import { canSee, isActivePath, systemNav, type NavItem } from '@/config/navigation'
 import { useAuth } from '@/composables/useAuth'
 import { useMenuOrder } from '@/composables/useMenuOrder'
 import { useNavTooltip } from '@/composables/useNavTooltip'
@@ -26,7 +26,7 @@ const props = defineProps<{ collapsed?: boolean }>()
 
 const route = useRoute()
 const router = useRouter()
-const { logout } = useAuth()
+const { logout, user } = useAuth()
 const { activeModule } = useModules()
 
 function onLogout() {
@@ -46,13 +46,16 @@ watch(
   () => hide(),
 )
 
+// Пункты, закрытые для роли сотрудника, в меню не показываются
+const visible = (items: NavItem[]) => items.filter((item) => canSee(item, user.value?.role))
+
 const sections = computed<{ key: string; label: string; items: NavItem[] }[]>(() => [
   {
     key: activeModule.value.id,
     label: activeModule.value.title,
-    items: sorted(activeModule.value.id, activeModule.value.items),
+    items: sorted(activeModule.value.id, visible(activeModule.value.items)),
   },
-  { key: 'system', label: 'Система', items: sorted('system', systemNav) },
+  { key: 'system', label: 'Система', items: sorted('system', visible(systemNav)) },
 ])
 
 // Режим настройки порядка: пункты можно перетаскивать или двигать стрелками

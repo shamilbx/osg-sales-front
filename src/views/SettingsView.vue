@@ -4,6 +4,7 @@ import { useTheme } from '@/composables/useTheme'
 import { cn } from '@/lib/utils'
 import BasePanel from '@/components/dashboard/BasePanel.vue'
 import PanelHeader from '@/components/dashboard/PanelHeader.vue'
+import ProfilePanel from '@/components/settings/ProfilePanel.vue'
 
 const { isDark, toggle } = useTheme()
 
@@ -22,9 +23,11 @@ const setTheme = (dark: boolean) => {
     <header>
       <h1 class="text-2xl font-semibold tracking-tight text-zinc-950">{{ $t('Настройки') }}</h1>
       <p class="mt-1 text-sm text-zinc-700">
-        {{ $t('Тема оформления. Выбор сохраняется в этом браузере.') }}
+        {{ $t('Профиль, пароль и тема оформления') }}
       </p>
     </header>
+
+    <ProfilePanel />
 
     <BasePanel class="flex flex-col gap-7">
       <PanelHeader :icon="Palette" :title="$t('Оформление')" />

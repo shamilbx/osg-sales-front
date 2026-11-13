@@ -19,6 +19,10 @@ export interface AuthUser {
   full_name: string
   phone: string
   lang: string
+  status: boolean
+  last_login_at: string | null
+  created_at: string
+  updated_at: string
 }
 
 export const roleLabels: Record<Role, string> = {
@@ -65,6 +69,11 @@ export function useAuth() {
     reset()
   }
 
+  /** Профиль изменился (сохранили свои данные): шапка и меню сразу видят новое */
+  function setUser(updated: AuthUser) {
+    user.value = updated
+  }
+
   /** Подтягивает профиль по сохранённому токену; при отказе сервера сессия сбрасывается */
   async function restore() {
     if (!token.value || user.value) return
@@ -82,5 +91,6 @@ export function useAuth() {
     login,
     logout,
     restore,
+    setUser,
   }
 }

@@ -4,7 +4,8 @@ import { computed, nextTick, ref, watch, type Component } from 'vue'
 import { useRouter } from 'vue-router'
 import { Search, SearchX } from '@lucide/vue'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
-import { allNav, modules, type NavModule } from '@/config/navigation'
+import { allNav, canSee, modules, type NavModule } from '@/config/navigation'
+import { useAuth } from '@/composables/useAuth'
 import { useModules } from '@/composables/useModules'
 import { matchesSearch } from '@/lib/search'
 import { cn } from '@/lib/utils'
@@ -29,6 +30,7 @@ const open = defineModel<boolean>('open', { required: true })
 
 const router = useRouter()
 const { selectModule } = useModules()
+const { user } = useAuth()
 
 const query = ref('')
 const activeIndex = ref(0)
@@ -65,14 +67,16 @@ const allItems = computed<PaletteItem[]>(() => [
     tone: module.tone,
     run: () => openModule(module),
   })),
-  ...allNav.map<PaletteItem>((item) => ({
-    id: `section-${item.to}`,
-    kind: 'section',
-    title: item.title,
-    description: t('Раздел модуля «{name}»', { name: moduleOfSection(item.to) }),
-    icon: item.icon,
-    run: () => go(item.to),
-  })),
+  ...allNav
+    .filter((item) => canSee(item, user.value?.role))
+    .map<PaletteItem>((item) => ({
+      id: `section-${item.to}`,
+      kind: 'section',
+      title: item.title,
+      description: t('Раздел модуля «{name}»', { name: moduleOfSection(item.to) }),
+      icon: item.icon,
+      run: () => go(item.to),
+    })),
 ])
 
 const results = computed(() => {

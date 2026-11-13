@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils'
 import { useTheme } from '@/composables/useTheme'
 import { roleLabels, useAuth } from '@/composables/useAuth'
 import AppLogo from '@/components/layout/AppLogo.vue'
-import HeaderSky from '@/components/layout/HeaderSky.vue'
 import GlobalSearch from '@/components/layout/GlobalSearch.vue'
 import HeaderClock from '@/components/layout/HeaderClock.vue'
 import LanguageMenu from '@/components/layout/LanguageMenu.vue'
@@ -36,11 +35,9 @@ const iconButton =
 </script>
 
 <template>
-  <!-- z-30: меню модулей и языка раскрываются поверх стеклянных панелей страницы, у каждой из них свой слой -->
-  <header class="glass relative z-30 min-h-[92px] min-w-0 rounded-[24px]">
-    <HeaderSky />
-
-    <div class="relative flex items-center gap-3 px-3 py-4 sm:gap-4 sm:px-5 sm:py-5 lg:px-6">
+  <!-- z-30: меню модулей и языка раскрываются поверх панелей страницы, у каждой из них свой слой -->
+  <header class="relative z-30 min-w-0">
+    <div class="relative flex items-center gap-3 sm:gap-4">
       <!-- Мобильное меню -->
       <Button
         v-if="!hub"
@@ -67,7 +64,7 @@ const iconButton =
         <PanelLeftClose v-else class="size-5" />
       </Button>
 
-      <div :class="hub ? 'shrink-0' : 'hidden shrink-0 sm:block lg:hidden'">
+      <div v-if="hub" class="shrink-0">
         <AppLogo />
       </div>
 

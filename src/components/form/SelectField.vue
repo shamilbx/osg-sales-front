@@ -13,6 +13,7 @@ defineProps<{
   options: SelectOption<T>[]
   placeholder?: string
   invalid?: boolean
+  disabled?: boolean
 }>()
 const model = defineModel<T | ''>({ required: true })
 </script>
@@ -22,6 +23,7 @@ const model = defineModel<T | ''>({ required: true })
     <select
       :id="id"
       v-model="model"
+      :disabled="disabled"
       :aria-invalid="invalid || undefined"
       :class="cn(fieldClass, 'appearance-none pr-10', model === '' && 'text-zinc-400')"
     >

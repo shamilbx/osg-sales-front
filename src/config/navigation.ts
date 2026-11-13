@@ -1,13 +1,16 @@
 import { t } from '@/i18n'
 import type { Component } from 'vue'
-import { LayoutDashboard, LifeBuoy, Settings, TrendingUp } from '@lucide/vue'
+import { LayoutDashboard, LifeBuoy, Settings, TrendingUp, UsersRound } from '@lucide/vue'
 import type { Tone } from '@/lib/types'
+import type { Role } from '@/composables/useAuth'
 
 export interface NavItem {
   title: string
   to: string
   icon: Component
   badge?: number
+  /** Кому виден пункт; без списка — всем ролям */
+  roles?: Role[]
 }
 
 export interface NavModule {
@@ -55,6 +58,14 @@ export const modules: NavModule[] = [
 export const systemNav: NavItem[] = [
   {
     get title() {
+      return t('Сотрудники')
+    },
+    to: '/users',
+    icon: UsersRound,
+    roles: ['superadmin'],
+  },
+  {
+    get title() {
       return t('Настройки')
     },
     to: '/settings',
@@ -75,7 +86,14 @@ export function isActivePath(to: string, path: string) {
   return to === '/' ? path === '/' : path === to || path.startsWith(`${to}/`)
 }
 
+/** Виден ли пункт меню сотруднику с ролью role; пока профиль не загружен, закрытые пункты скрыты */
+export const canSee = (item: NavItem, role: Role | undefined) =>
+  !item.roles || (role !== undefined && item.roles.includes(role))
+
+/** Разделы со своей страницей; остальным пунктам меню показывается заглушка */
+const pages = ['/', '/settings', '/users']
+
 /** Разделы, для которых пока показывается заглушка */
 export const placeholderSlugs = allNav
-  .filter((item) => item.to !== '/' && item.to !== '/settings')
+  .filter((item) => !pages.includes(item.to))
   .map((item) => item.to.slice(1))

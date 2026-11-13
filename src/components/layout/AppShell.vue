@@ -5,7 +5,6 @@ import { onKeyStroke, useLocalStorage } from '@vueuse/core'
 import { X } from '@lucide/vue'
 import { cn } from '@/lib/utils'
 import AppHeader from '@/components/layout/AppHeader.vue'
-import AppLogo from '@/components/layout/AppLogo.vue'
 import AppSidebar from '@/components/layout/AppSidebar.vue'
 
 const mobileOpen = ref(false)
@@ -38,31 +37,23 @@ onKeyStroke('Escape', () => (mobileOpen.value = false))
       )
     "
   >
-    <!-- Логотип в отдельной карточке над сайдбаром -->
-    <div
-      :class="
-        cn(
-          'glass hidden items-center overflow-hidden rounded-[24px] lg:flex',
-          'justify-center',
-          sidebarCollapsed ? 'px-0' : 'px-4',
-        )
-      "
-    >
-      <AppLogo :compact="sidebarCollapsed" />
-    </div>
-
     <AppHeader
+      class="lg:col-start-2 lg:row-start-1"
       :sidebar-collapsed="sidebarCollapsed"
       @open-menu="mobileOpen = true"
       @toggle-sidebar="sidebarCollapsed = !sidebarCollapsed"
     />
 
-    <AppSidebar :collapsed="sidebarCollapsed" class="hidden lg:flex" />
+    <!-- Сайдбар на всю высоту слева, шапка и страница справа от него -->
+    <AppSidebar
+      :collapsed="sidebarCollapsed"
+      class="hidden lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:flex"
+    />
 
     <!-- Шапка и меню стоят на месте, прокручивается только этот контейнер -->
     <main
       ref="content"
-      class="app-content min-h-0 min-w-0 overflow-y-auto rounded-[24px] bg-white p-4 sm:p-5"
+      class="app-content min-h-0 min-w-0 overflow-y-auto rounded-[24px] bg-white p-4 sm:p-5 lg:col-start-2 lg:row-start-2"
     >
       <slot />
     </main>

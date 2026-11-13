@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '@/views/DashboardView.vue'
 import { placeholderSlugs } from '@/config/navigation'
-import { useAuth } from '@/composables/useAuth'
+import { useAuth, type Role } from '@/composables/useAuth'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -9,6 +9,8 @@ declare module 'vue-router' {
     public?: boolean
     /** hub — центр управления без бокового меню */
     layout?: 'hub'
+    /** Кому открыта страница; без списка — всем ролям. Сервер проверяет права сам, это только навигация */
+    roles?: Role[]
   }
 }
 
@@ -30,6 +32,12 @@ const router = createRouter({
     { path: '/', name: 'dashboard', component: DashboardView },
     { path: '/settings', name: 'settings', component: () => import('@/views/SettingsView.vue') },
     {
+      path: '/users',
+      name: 'users',
+      component: () => import('@/views/UsersView.vue'),
+      meta: { roles: ['superadmin'] },
+    },
+    {
       path: `/:section(${placeholderSlugs.join('|')})`,
       name: 'section',
       component: () => import('@/views/SectionPlaceholderView.vue'),
@@ -38,8 +46,8 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to) => {
-  const { isAuthenticated } = useAuth()
+router.beforeEach(async (to) => {
+  const { isAuthenticated, user, restore } = useAuth()
 
   if (!to.meta.public && !isAuthenticated.value) {
     return {
@@ -48,6 +56,12 @@ router.beforeEach((to) => {
     }
   }
   if (to.name === 'login' && isAuthenticated.value) return { name: 'modules' }
+
+  // Страница только для некоторых ролей: сначала нужен профиль, чтобы знать роль
+  if (to.meta.roles && isAuthenticated.value) {
+    await restore()
+    if (user.value && !to.meta.roles.includes(user.value.role)) return { name: 'dashboard' }
+  }
 })
 
 export default router
