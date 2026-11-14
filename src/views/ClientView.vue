@@ -6,7 +6,6 @@ import {
   Archive,
   ArchiveRestore,
   ArrowLeft,
-  ArrowRight,
   Building2,
   ChevronRight,
   Clock,
@@ -42,13 +41,11 @@ import {
   type Contact,
   type Duplicate,
 } from '@/api/companies'
-import { listLeads, type Lead } from '@/api/leads'
 import { listOwners, ownerName, type Owner } from '@/api/staff'
 import { roleLabels, useAuth } from '@/composables/useAuth'
 import { useDictionaries } from '@/composables/useDictionaries'
 import { useToast } from '@/composables/useToast'
 import { formatIsoDate, formatDateTime } from '@/lib/dates'
-import { formatMoney } from '@/lib/format'
 import { formatPhone } from '@/lib/phone'
 import { cn } from '@/lib/utils'
 import { fieldClass, textareaClass } from '@/components/form/field-styles'
@@ -59,7 +56,6 @@ import InfoCard from '@/components/common/InfoCard.vue'
 import InfoRow from '@/components/common/InfoRow.vue'
 import AuditTimeline from '@/components/audit/AuditTimeline.vue'
 import ContactFormBlock from '@/components/companies/ContactForm.vue'
-import { leadStatusMeta } from '@/components/leads/status'
 import {
   companyNameError,
   socialError,
@@ -78,13 +74,12 @@ const companyId = computed(() => Number(route.params.id))
 
 const company = ref<Company | null>(null)
 const contacts = ref<Contact[]>([])
-const leads = ref<Lead[]>([])
 const loading = ref(false)
 const loadError = ref('')
 // Меняется после каждого сохранения, чтобы история подтянулась заново
 const version = ref(0)
 
-type Tab = 'overview' | 'contacts' | 'leads' | 'history'
+type Tab = 'overview' | 'contacts' | 'history'
 const tab = ref<Tab>('overview')
 
 const isArchived = computed(() => company.value?.status === 'archived')
@@ -104,7 +99,6 @@ const tabs = computed(() => {
   const items: { id: Tab; label: string; icon: typeof LayoutGrid; count?: number }[] = [
     { id: 'overview', label: t('Обзор'), icon: LayoutGrid },
     { id: 'contacts', label: t('Контакты'), icon: Users, count: contacts.value.length },
-    { id: 'leads', label: t('Лиды'), icon: UserRound, count: leads.value.length },
   ]
   // Журнал изменений сервер отдаёт только руководителю и суперадмину
   if (isSupervisor.value) items.push({ id: 'history', label: t('История действий'), icon: History })
@@ -120,7 +114,6 @@ async function load() {
     contacts.value = card.contacts
     ownerId.value = card.company.owner_id
     fillForm(card.company)
-    leads.value = (await listLeads({ company_id: companyId.value, limit: 100, offset: 0 })).leads
   } catch (error) {
     loadError.value = error instanceof ApiError ? error.message : t('Ошибка сервера')
   } finally {
@@ -370,10 +363,6 @@ async function removeContact(contact: Contact) {
     toast.error(t('Не удалось удалить'), error instanceof ApiError ? error.message : undefined)
   }
 }
-
-const openLead = (lead: Lead) => router.push(`/leads/${lead.id}`)
-const statusBadge = (lead: Lead) => leadStatusMeta[lead.status].badge
-const statusLabel = (lead: Lead) => leadStatusMeta[lead.status].label()
 
 const openDuplicate = () => duplicate.value && router.push(`/clients/${duplicate.value.found.id}`)
 
@@ -872,47 +861,6 @@ const plainButton =
               {{ company.notes }}
             </p>
           </InfoCard>
-
-          <BasePanel class="flex flex-col gap-3 lg:col-span-2">
-            <div class="flex min-h-9 items-center justify-between gap-3">
-              <h2 class="text-base font-semibold tracking-tight text-zinc-950">
-                {{ $t('Лиды клиента') }}
-              </h2>
-              <button type="button" :class="smallButton" @click="tab = 'leads'">
-                {{ $t('Все лиды') }}
-                <ArrowRight class="size-3.5" />
-              </button>
-            </div>
-            <p v-if="leads.length === 0" class="py-4 text-center text-sm text-zinc-500">
-              {{ $t('Из лидов этот клиент не создавался') }}
-            </p>
-            <ul v-else class="flex flex-col divide-y divide-zinc-100">
-              <li v-for="lead in leads.slice(0, 4)" :key="lead.id">
-                <RouterLink
-                  :to="`/leads/${lead.id}`"
-                  class="flex items-center justify-between gap-3 py-2.5 transition-colors hover:text-zinc-600"
-                >
-                  <span class="min-w-0">
-                    <span class="block truncate text-sm font-semibold text-zinc-950">{{
-                      lead.full_name
-                    }}</span>
-                    <span class="block truncate text-xs text-zinc-500">{{
-                      lead.service_interest || lead.source_name
-                    }}</span>
-                  </span>
-                  <span
-                    :class="
-                      cn(
-                        'shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ring-1',
-                        statusBadge(lead),
-                      )
-                    "
-                    >{{ statusLabel(lead) }}</span
-                  >
-                </RouterLink>
-              </li>
-            </ul>
-          </BasePanel>
         </div>
       </template>
 
@@ -1043,59 +991,6 @@ const plainButton =
             </dl>
           </li>
         </ul>
-      </BasePanel>
-
-      <!-- Лиды, из которых получился клиент -->
-      <BasePanel v-if="tab === 'leads'" class="flex flex-col gap-3 p-5 sm:p-6">
-        <h2 class="text-base font-semibold tracking-tight text-zinc-950">
-          {{ $t('Лиды клиента') }}
-          <span class="ml-1 text-zinc-400">{{ leads.length }}</span>
-        </h2>
-        <p v-if="leads.length === 0" class="py-6 text-center text-sm text-zinc-500">
-          {{ $t('Из лидов этот клиент не создавался') }}
-        </p>
-        <div v-else class="overflow-x-auto">
-          <table class="w-full min-w-[560px] text-left">
-            <thead class="border-b border-zinc-100 text-xs text-zinc-500">
-              <tr>
-                <th class="py-3 pr-4 font-medium">{{ $t('Лид') }}</th>
-                <th class="px-4 py-3 font-medium">{{ $t('Статус') }}</th>
-                <th class="px-4 py-3 font-medium">{{ $t('Источник') }}</th>
-                <th class="py-3 pl-4 text-right font-medium">{{ $t('Ожидаемая сумма') }}</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-zinc-100">
-              <tr
-                v-for="lead in leads"
-                :key="lead.id"
-                tabindex="0"
-                class="cursor-pointer transition-colors outline-none hover:bg-zinc-50 focus-visible:bg-zinc-50"
-                @click="openLead(lead)"
-                @keydown.enter="openLead(lead)"
-              >
-                <td class="py-3 pr-4">
-                  <p class="text-sm font-semibold text-zinc-950">{{ lead.full_name }}</p>
-                  <p class="text-xs text-zinc-500">{{ lead.service_interest || '—' }}</p>
-                </td>
-                <td class="px-4 py-3">
-                  <span
-                    :class="
-                      cn(
-                        'inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ring-1',
-                        statusBadge(lead),
-                      )
-                    "
-                    >{{ statusLabel(lead) }}</span
-                  >
-                </td>
-                <td class="px-4 py-3 text-sm text-zinc-800">{{ lead.source_name }}</td>
-                <td class="py-3 pl-4 text-right text-sm font-semibold text-zinc-950 tabular-nums">
-                  {{ lead.expected_amount ? formatMoney(lead.expected_amount) : '—' }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </BasePanel>
 
       <!-- История -->

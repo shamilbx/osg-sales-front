@@ -250,7 +250,7 @@ function validate() {
       : contactChannelError(form.phone, form.email, form.telegram)
   errors.company_name = companyNameError(form.company_name)
   errors.sphere = form.industry_id && !form.sphere_id ? t('Выберите сферу') : ''
-  errors.source = form.source_id ? '' : t('Выберите источник лида')
+  errors.source = form.source_id ? '' : t('Выберите источник')
   return !Object.values(errors).some(Boolean)
 }
 
@@ -262,7 +262,7 @@ async function save() {
     const payload: LeadForm = { ...form, full_name: form.full_name.trim() }
     if (props.leadId === null) {
       const result = await createLead(payload)
-      toast.success(t('Лид создан'), result.lead.full_name)
+      toast.success(t('Потенциальный клиент создан'), result.lead.full_name)
       emit('created', result.lead.id)
       // Предупреждения о совпадениях показываются уже в карточке созданного лида
       pendingWarnings = result.duplicates
@@ -273,13 +273,10 @@ async function save() {
     fillForm(result.lead)
     warnings.value = result.duplicates
     version.value++
-    toast.success(t('Данные лида обновлены'))
+    toast.success(t('Данные обновлены'))
     emit('changed')
   } catch (error) {
-    toast.error(
-      t('Не удалось сохранить лид'),
-      error instanceof ApiError ? error.message : undefined,
-    )
+    toast.error(t('Не удалось сохранить'), error instanceof ApiError ? error.message : undefined)
   } finally {
     saving.value = false
   }
@@ -321,7 +318,7 @@ async function changeStatus(status: LeadStatus, why = '') {
     fillForm(lead.value)
     resetActions()
     version.value++
-    toast.success(t('Статус лида изменён'), leadStatusMeta[lead.value.status].label())
+    toast.success(t('Статус изменён'), leadStatusMeta[lead.value.status].label())
     emit('changed')
   } catch (error) {
     toast.error(
@@ -390,7 +387,7 @@ async function convert(companyId?: number) {
     lead.value = result.lead
     resetActions()
     version.value++
-    toast.success(t('Лид конвертирован'), result.deal.title)
+    toast.success(t('Конвертация выполнена'), result.deal.title)
     emit('changed')
   } catch (error) {
     if (error instanceof ApiError && error.data?.duplicate) {
@@ -426,7 +423,9 @@ const ownerOptions = computed(() =>
   })),
 )
 
-const title = computed(() => (isNew.value ? t('Новый лид') : (lead.value?.full_name ?? '…')))
+const title = computed(() =>
+  isNew.value ? t('Новый потенциальный клиент') : (lead.value?.full_name ?? '…'),
+)
 
 const fieldLabels: Record<string, string> = {
   get lead_full_name() {
@@ -538,7 +537,7 @@ const actionButton =
         v-if="lead?.status === 'converted'"
         class="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-900 ring-1 ring-emerald-200"
       >
-        <span>{{ $t('Лид конвертирован: клиент, контакт и сделка готовы.') }}</span>
+        <span>{{ $t('Конвертация выполнена: созданы клиент, контакт и сделка.') }}</span>
         <button
           v-if="lead.converted_company_id"
           type="button"
@@ -573,7 +572,7 @@ const actionButton =
           </button>
         </div>
         <p v-else class="text-xs text-zinc-500">
-          {{ $t('Вернуть отклонённого лида в работу может руководитель или суперадмин') }}
+          {{ $t('Вернуть отклонённого в работу может руководитель или суперадмин') }}
         </p>
       </div>
 
@@ -581,7 +580,7 @@ const actionButton =
         v-else-if="lead && !canEdit"
         class="mb-5 rounded-2xl bg-zinc-50 px-4 py-3 text-sm text-zinc-700 ring-1 ring-zinc-200"
       >
-        {{ $t('Менять лида может только его ответственный — {name}', { name: lead.owner_name }) }}
+        {{ $t('Менять запись может только её ответственный — {name}', { name: lead.owner_name }) }}
       </p>
 
       <!-- Предупреждения о совпадениях: сохранению не мешают -->
@@ -606,7 +605,9 @@ const actionButton =
             class="h-9 rounded-xl border border-amber-300 bg-white px-3.5 text-[13px] font-semibold text-amber-900 transition-colors hover:bg-amber-100"
             @click="openWarning(item)"
           >
-            {{ item.kind === 'lead' ? $t('Открыть лида') : $t('Открыть клиента') }}
+            {{
+              item.kind === 'lead' ? $t('Открыть потенциального клиента') : $t('Открыть клиента')
+            }}
           </button>
         </li>
       </ul>
@@ -616,7 +617,7 @@ const actionButton =
         v-if="nextStep || canReject"
         class="mb-6 flex flex-col gap-3 rounded-2xl border border-zinc-200 p-4"
       >
-        <h3 class="text-sm font-semibold text-zinc-950">{{ $t('Работа с лидом') }}</h3>
+        <h3 class="text-sm font-semibold text-zinc-950">{{ $t('Работа') }}</h3>
         <div v-if="!rejecting" class="flex flex-wrap gap-2">
           <button
             v-if="nextStep"
@@ -674,7 +675,7 @@ const actionButton =
               :class="cn(actionButton, 'bg-rose-600 text-white hover:bg-rose-700')"
               :disabled="statusSaving"
             >
-              {{ $t('Отклонить лида') }}
+              {{ $t('Отклонить') }}
             </button>
           </div>
         </form>
@@ -963,7 +964,7 @@ const actionButton =
           class="h-11 rounded-xl bg-brand px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
           :disabled="saving"
         >
-          {{ isNew ? $t('Создать лида') : $t('Сохранить') }}
+          {{ isNew ? $t('Создать') : $t('Сохранить') }}
         </button>
       </div>
     </template>

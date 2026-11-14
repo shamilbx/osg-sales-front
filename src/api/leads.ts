@@ -3,7 +3,8 @@ import type { Company, Contact, Duplicate } from '@/api/companies'
 
 export const leadStatuses = ['new', 'contacted', 'qualified', 'disqualified', 'converted'] as const
 export type LeadStatus = (typeof leadStatuses)[number]
-export type LeadStatusFilter = LeadStatus | 'all'
+/** open — все, кроме конвертированных: конвертированный становится клиентом и из списка уходит */
+export type LeadStatusFilter = LeadStatus | 'all' | 'open'
 export type LeadSort = 'created' | 'name' | 'amount'
 
 export interface Lead {
@@ -66,8 +67,6 @@ export interface LeadListQuery {
   status?: LeadStatusFilter
   source_id?: number
   owner_id?: number
-  /** Лиды, из которых получился этот клиент */
-  company_id?: number
   q?: string
   sort?: LeadSort
   dir?: 'asc' | 'desc'

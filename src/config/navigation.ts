@@ -68,7 +68,7 @@ export const modules: NavModule[] = [
       },
       {
         get title() {
-          return t('Лиды')
+          return t('Потенциальные клиенты')
         },
         to: '/leads',
         icon: UserPlus,

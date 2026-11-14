@@ -45,7 +45,7 @@ const loading = ref(false)
 const error = ref('')
 
 const query = ref('')
-const status = ref<LeadStatusFilter>('all')
+const status = ref<LeadStatusFilter>('open')
 const source = ref('all')
 const owner = ref('all')
 const sort = ref<LeadSort>('created')
@@ -100,13 +100,15 @@ listOwners()
   .then((items) => (owners.value = items))
   .catch(() => {})
 
+// Конвертированные в списке не показываются: они уже клиенты
+const openStatuses = leadStatuses.filter((s) => s !== 'converted')
 const statusFilter = computed<FilterOption<LeadStatusFilter>[]>(() => [
   {
-    value: 'all',
+    value: 'open',
     label: t('Все'),
-    count: Object.values(counts.value).reduce((sum, n) => sum + n, 0),
+    count: openStatuses.reduce((sum, s) => sum + counts.value[s], 0),
   },
-  ...leadStatuses.map((s) => ({
+  ...openStatuses.map((s) => ({
     value: s,
     label: leadStatusMeta[s].label(),
     count: counts.value[s],
@@ -165,9 +167,11 @@ function onCreated(id: number) {
   <div class="flex h-full min-h-0 flex-col gap-4">
     <header class="flex shrink-0 flex-wrap items-end justify-between gap-3">
       <div>
-        <h1 class="text-2xl font-semibold tracking-tight text-zinc-950">{{ $t('Лиды') }}</h1>
+        <h1 class="text-2xl font-semibold tracking-tight text-zinc-950">
+          {{ $t('Потенциальные клиенты') }}
+        </h1>
         <p class="mt-1 text-sm text-zinc-700">
-          {{ $t('Потенциальные клиенты до конвертации в клиента и сделку') }}
+          {{ $t('Обратились, но ещё не стали клиентами') }}
         </p>
       </div>
       <button
@@ -177,7 +181,7 @@ function onCreated(id: number) {
         @click="openCreate"
       >
         <Plus class="size-4" />
-        {{ $t('Добавить лида') }}
+        {{ $t('Добавить потенциального клиента') }}
       </button>
     </header>
 
@@ -187,7 +191,7 @@ function onCreated(id: number) {
 
     <div class="flex shrink-0 flex-wrap items-center gap-2">
       <label class="relative min-w-[220px] flex-1 sm:max-w-[340px]">
-        <span class="sr-only">{{ $t('Поиск лидов') }}</span>
+        <span class="sr-only">{{ $t('Поиск потенциальных клиентов') }}</span>
         <Search
           class="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-zinc-400"
         />
@@ -202,7 +206,7 @@ function onCreated(id: number) {
         v-model="status"
         :label="$t('Статус')"
         :options="statusFilter"
-        all-value="all"
+        all-value="open"
       />
       <FilterDropdown
         v-model="source"
@@ -233,7 +237,7 @@ function onCreated(id: number) {
             class="sticky top-0 z-10 border-b border-zinc-100 bg-zinc-50 text-xs text-zinc-500"
           >
             <tr>
-              <th class="px-5 py-3 font-medium">{{ $t('Лид') }}</th>
+              <th class="px-5 py-3 font-medium">{{ $t('Контактное лицо') }}</th>
               <th class="px-5 py-3 font-medium">{{ $t('Компания') }}</th>
               <th class="px-5 py-3 font-medium">{{ $t('Статус') }}</th>
               <th class="px-5 py-3 font-medium">{{ $t('Источник') }}</th>
@@ -295,7 +299,7 @@ function onCreated(id: number) {
             </tr>
             <tr v-if="!loading && leads.length === 0">
               <td colspan="6" class="px-5 py-12 text-center text-sm text-zinc-500">
-                {{ $t('Лиды не найдены') }}
+                {{ $t('Потенциальные клиенты не найдены') }}
               </td>
             </tr>
           </tbody>
