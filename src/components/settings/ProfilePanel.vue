@@ -10,6 +10,7 @@ import { fieldClass } from '@/components/form/field-styles'
 import BasePanel from '@/components/dashboard/BasePanel.vue'
 import PanelHeader from '@/components/dashboard/PanelHeader.vue'
 import FormField from '@/components/form/FormField.vue'
+import PasswordField from '@/components/form/PasswordField.vue'
 import PhoneField from '@/components/form/PhoneField.vue'
 import { emailError, fullNameError, passwordError, phoneError } from '@/components/users/validation'
 
@@ -142,12 +143,10 @@ const ids = {
         {{ $t('Смена пароля') }}
       </h3>
       <FormField :label="$t('Текущий пароль')" :for="ids.old" :error="pwdErrors.old">
-        <input
+        <PasswordField
           :id="ids.old"
           v-model="pwd.old"
-          type="password"
-          :class="fieldClass"
-          :aria-invalid="Boolean(pwdErrors.old) || undefined"
+          :invalid="Boolean(pwdErrors.old)"
           autocomplete="current-password"
         />
       </FormField>
@@ -157,22 +156,18 @@ const ids = {
         :error="pwdErrors.next"
         :hint="$t('От 8 символов: буквы, цифры и хотя бы один символ')"
       >
-        <input
+        <PasswordField
           :id="ids.next"
           v-model="pwd.next"
-          type="password"
-          :class="fieldClass"
-          :aria-invalid="Boolean(pwdErrors.next) || undefined"
+          :invalid="Boolean(pwdErrors.next)"
           autocomplete="new-password"
         />
       </FormField>
       <FormField :label="$t('Повторите пароль')" :for="ids.confirm" :error="pwdErrors.confirm">
-        <input
+        <PasswordField
           :id="ids.confirm"
           v-model="pwd.confirm"
-          type="password"
-          :class="fieldClass"
-          :aria-invalid="Boolean(pwdErrors.confirm) || undefined"
+          :invalid="Boolean(pwdErrors.confirm)"
           autocomplete="new-password"
         />
       </FormField>

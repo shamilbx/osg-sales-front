@@ -17,6 +17,7 @@ import { formatPhone } from '@/lib/phone'
 import { cn } from '@/lib/utils'
 import { fieldClass } from '@/components/form/field-styles'
 import FormField from '@/components/form/FormField.vue'
+import PasswordField from '@/components/form/PasswordField.vue'
 import PhoneField from '@/components/form/PhoneField.vue'
 import SelectField from '@/components/form/SelectField.vue'
 import ToggleSwitch from '@/components/form/ToggleSwitch.vue'
@@ -279,12 +280,10 @@ const ids = {
               : $t('Оставьте пустым, чтобы не менять')
           "
         >
-          <input
+          <PasswordField
             :id="ids.password"
             v-model="form.password"
-            type="password"
-            :class="fieldClass"
-            :aria-invalid="Boolean(errors.password) || undefined"
+            :invalid="Boolean(errors.password)"
             autocomplete="new-password"
           />
         </FormField>

@@ -16,7 +16,6 @@ import { useAuth } from '@/composables/useAuth'
 import { useMenuOrder } from '@/composables/useMenuOrder'
 import { useNavTooltip } from '@/composables/useNavTooltip'
 import { useModules } from '@/composables/useModules'
-import AppVersionCard from '@/components/layout/AppVersionCard.vue'
 import ModuleSwitcher from '@/components/layout/ModuleSwitcher.vue'
 import NavTooltip from '@/components/layout/NavTooltip.vue'
 import SidebarBackdrop from '@/components/layout/SidebarBackdrop.vue'
@@ -261,7 +260,6 @@ const isActive = (to: string) => isActivePath(to, route.path)
         <LogOut class="size-[17px]" :stroke-width="1.9" />
         <span v-if="!collapsed">{{ $t('Выйти') }}</span>
       </button>
-      <AppVersionCard v-if="!collapsed" />
     </div>
   </aside>
 </template>
