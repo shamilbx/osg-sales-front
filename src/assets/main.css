@@ -12,8 +12,8 @@
 }
 
 @theme inline {
-  /* Как в iwork: Inter везде, отдельного шрифта для заголовков нет */
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  /* Onest: один шрифт для текста и заголовков, есть кириллица и узбекская латиница */
+  --font-sans: 'Onest', ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-sans);
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',

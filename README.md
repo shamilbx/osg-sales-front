@@ -4,7 +4,7 @@
 «Сотрудники», «Компании», «Справочники». Бэкенд лежит в репозитории `osg-sales-crm`.
 
 **Стек:** Vue 3 (`<script setup lang="ts">`) · TypeScript · Vite · Tailwind CSS v4 · shadcn-vue / reka-ui ·
-lucide (`@lucide/vue`) · `@vueuse/core` · vue-router. Шрифт Inter.
+lucide (`@lucide/vue`) · `@vueuse/core` · vue-router. Шрифт Onest.
 
 ## Запуск
 
