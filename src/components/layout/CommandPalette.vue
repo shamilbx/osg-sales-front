@@ -2,7 +2,9 @@
 import { t } from '@/i18n'
 import { computed, nextTick, ref, watch, type Component } from 'vue'
 import { useRouter } from 'vue-router'
-import { Search, SearchX } from '@lucide/vue'
+import { watchDebounced } from '@vueuse/core'
+import { listCompanies, type Company } from '@/api/companies'
+import { Building2, Search, SearchX } from '@lucide/vue'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { allNav, canSee, modules, type NavModule } from '@/config/navigation'
 import { useAuth } from '@/composables/useAuth'
@@ -12,7 +14,7 @@ import { cn } from '@/lib/utils'
 import type { Tone } from '@/lib/types'
 import IconTile from '@/components/dashboard/IconTile.vue'
 
-type Kind = 'module' | 'section'
+type Kind = 'company' | 'module' | 'section'
 
 interface PaletteItem {
   id: string
@@ -37,10 +39,11 @@ const activeIndex = ref(0)
 const list = ref<HTMLElement | null>(null)
 
 const groupLabels: Record<Kind, string> = {
+  company: 'Компании',
   module: 'Модули',
   section: 'Разделы',
 }
-const groupOrder: Kind[] = ['module', 'section']
+const groupOrder: Kind[] = ['company', 'module', 'section']
 // Сколько результатов показывать в группе при поиске
 const LIMIT = 5
 
@@ -79,13 +82,65 @@ const allItems = computed<PaletteItem[]>(() => [
     })),
 ])
 
+// Компании ищутся на сервере: по названию, ИНН, сайту, адресу и по их контактам (имя, телефон, email, telegram)
+const companyHits = ref<Company[]>([])
+const searching = ref(false)
+let requestId = 0
+
+async function searchCompanies(text: string) {
+  const id = ++requestId
+  if (text.length < 2) {
+    companyHits.value = []
+    searching.value = false
+    return
+  }
+  searching.value = true
+  try {
+    const page = await listCompanies({
+      q: text,
+      status: 'all',
+      sort: 'name',
+      dir: 'asc',
+      limit: LIMIT,
+      offset: 0,
+    })
+    // Ответ на устаревший запрос (пользователь уже напечатал дальше) отбрасываем
+    if (id === requestId) companyHits.value = page.companies
+  } catch {
+    if (id === requestId) companyHits.value = []
+  } finally {
+    if (id === requestId) searching.value = false
+  }
+}
+
+watchDebounced(query, (text) => void searchCompanies(text.trim()), { debounce: 250 })
+
+const companyItems = computed<PaletteItem[]>(() =>
+  companyHits.value.map((company) => ({
+    id: `company-${company.id}`,
+    kind: 'company',
+    title: company.name,
+    description: [
+      `${company.industry_name} · ${company.sphere_name}`,
+      company.status === 'archived' ? t('в архиве') : '',
+    ]
+      .filter(Boolean)
+      .join(' · '),
+    icon: Building2,
+    run: () => go(`/companies/${company.id}`),
+  })),
+)
+
 const results = computed(() => {
   // Без запроса показываем только модули, как в центре управления
   if (!query.value.trim()) return allItems.value.filter((item) => item.kind === 'module')
 
-  const found = allItems.value.filter((item) =>
-    matchesSearch(query.value, [item.title, item.description], [item.description]),
-  )
+  const found = [
+    ...companyItems.value,
+    ...allItems.value.filter((item) =>
+      matchesSearch(query.value, [item.title, item.description], [item.description]),
+    ),
+  ]
   return groupOrder.flatMap((kind) => found.filter((item) => item.kind === kind).slice(0, LIMIT))
 })
 
@@ -107,6 +162,7 @@ watch(open, (isOpen) => {
   if (!isOpen) return
   query.value = ''
   activeIndex.value = 0
+  companyHits.value = []
 })
 watch(query, () => (activeIndex.value = 0))
 
@@ -144,7 +200,7 @@ function onKeydown(event: KeyboardEvent) {
     >
       <DialogTitle class="sr-only">{{ $t('Поиск по CRM') }}</DialogTitle>
       <DialogDescription class="sr-only">
-        {{ $t('Найдите модуль, раздел, клиента или заявку и откройте его') }}
+        {{ $t('Найдите компанию, контакт, модуль или раздел и откройте его') }}
       </DialogDescription>
 
       <div class="flex items-center gap-3 border-b border-zinc-100 px-5">
@@ -156,7 +212,7 @@ function onKeydown(event: KeyboardEvent) {
           aria-expanded="true"
           aria-controls="palette-list"
           :aria-label="$t('Поиск по CRM')"
-          :placeholder="$t('Модуль, клиент, заявка или раздел')"
+          :placeholder="$t('Компания, ИНН, контакт или раздел')"
           autocomplete="off"
           class="h-14 min-w-0 flex-1 bg-transparent text-[15px] text-zinc-900 outline-none placeholder:text-zinc-400"
           @keydown="onKeydown"
@@ -222,7 +278,7 @@ function onKeydown(event: KeyboardEvent) {
         </section>
 
         <div
-          v-if="results.length === 0"
+          v-if="results.length === 0 && !searching"
           class="grid place-items-center gap-2 px-6 py-12 text-center"
         >
           <span class="grid size-11 place-items-center rounded-2xl bg-zinc-100 text-zinc-500">
@@ -231,7 +287,7 @@ function onKeydown(event: KeyboardEvent) {
           <p class="text-sm font-semibold text-zinc-900">{{ $t('Ничего не найдено') }}</p>
           <p class="text-[13px] text-zinc-500">
             {{
-              $t('Проверьте написание или введите имя клиента, номер заявки или название раздела')
+              $t('Проверьте написание или введите название компании, ИНН, имя или телефон контакта')
             }}
           </p>
         </div>
