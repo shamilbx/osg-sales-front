@@ -32,23 +32,26 @@ const router = createRouter({
     { path: '/', name: 'dashboard', component: DashboardView },
     { path: '/settings', name: 'settings', component: () => import('@/views/SettingsView.vue') },
     {
-      path: '/companies/new',
+      path: '/clients/new',
       name: 'company-new',
       component: () => import('@/views/CompanyFormView.vue'),
       meta: { roles: ['superadmin', 'manager'] },
     },
+    { path: '/clients', name: 'companies', component: () => import('@/views/CompaniesView.vue') },
     {
-      // /companies/:id открывает ту же страницу с карточкой компании: по такой ссылке ведут уведомления
-      path: '/companies/:id?',
-      name: 'companies',
-      component: () => import('@/views/CompaniesView.vue'),
+      path: '/clients/:id(\\d+)',
+      name: 'client',
+      component: () => import('@/views/ClientView.vue'),
     },
     {
-      path: '/dictionaries',
-      name: 'dictionaries',
-      component: () => import('@/views/DictionariesView.vue'),
-      meta: { roles: ['superadmin'] },
+      // /leads/:id открывает карточку лида (по такой ссылке ведут уведомления), /leads/new — форму нового
+      path: '/leads/:id?',
+      name: 'leads',
+      component: () => import('@/views/LeadsView.vue'),
     },
+    { path: '/profile', name: 'profile', component: () => import('@/views/ProfileView.vue') },
+    // Справочники переехали в настройки
+    { path: '/dictionaries', redirect: '/settings?tab=dictionaries' },
     {
       path: '/users',
       name: 'users',
@@ -60,6 +63,8 @@ const router = createRouter({
       name: 'section',
       component: () => import('@/views/SectionPlaceholderView.vue'),
     },
+    // Старые ссылки из уведомлений, созданных до переименования раздела
+    { path: '/companies/:id?', redirect: (to) => `/clients/${to.params.id ?? ''}` },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
 })

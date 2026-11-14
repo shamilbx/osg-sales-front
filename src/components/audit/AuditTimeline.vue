@@ -64,6 +64,12 @@ const actionLabels: Record<string, string> = {
   get primary_change() {
     return t('Смена основного контакта')
   },
+  get status_change() {
+    return t('Смена статуса')
+  },
+  get convert() {
+    return t('Конвертация')
+  },
 }
 
 async function load(more = false) {

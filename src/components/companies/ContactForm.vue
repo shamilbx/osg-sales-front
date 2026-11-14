@@ -77,7 +77,7 @@ async function save() {
 
 // Контакт уже есть в другой компании: ведём в её карточку
 const openDuplicate = () =>
-  duplicate.value && router.push(`/companies/${duplicate.value.found.company_id}`)
+  duplicate.value && router.push(`/clients/${duplicate.value.found.company_id}`)
 </script>
 
 <template>
@@ -98,14 +98,14 @@ const openDuplicate = () =>
       <span>
         {{ duplicate.message }}:
         <b>{{ duplicate.found.name }}</b>
-        ({{ $t('компания «{name}»', { name: duplicate.found.company_name }) }})
+        ({{ $t('клиент «{name}»', { name: duplicate.found.company_name }) }})
       </span>
       <button
         type="button"
         class="h-9 rounded-xl border border-amber-300 bg-white px-3.5 text-[13px] font-semibold text-amber-900 transition-colors hover:bg-amber-100"
         @click="openDuplicate"
       >
-        {{ $t('Открыть компанию') }}
+        {{ $t('Открыть клиента') }}
       </button>
     </div>
     <p
@@ -171,7 +171,7 @@ const openDuplicate = () =>
       :label="$t('Сделать основным контактом')"
     />
     <p v-else-if="!contact" class="text-xs text-zinc-500">
-      {{ $t('Первый контакт компании становится основным') }}
+      {{ $t('Первый контакт клиента становится основным') }}
     </p>
 
     <div class="flex justify-end gap-2">

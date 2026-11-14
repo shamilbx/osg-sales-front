@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { Moon, Palette, Sun } from '@lucide/vue'
+import { t } from '@/i18n'
+import { computed, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { ListTree, Moon, Palette, Sun } from '@lucide/vue'
+import { useAuth } from '@/composables/useAuth'
 import { useTheme } from '@/composables/useTheme'
 import { cn } from '@/lib/utils'
+import SegmentedControl from '@/components/form/SegmentedControl.vue'
 import BasePanel from '@/components/dashboard/BasePanel.vue'
 import PanelHeader from '@/components/dashboard/PanelHeader.vue'
-import ProfilePanel from '@/components/settings/ProfilePanel.vue'
+import DictionariesPanel from '@/components/settings/DictionariesPanel.vue'
 
+const route = useRoute()
+const router = useRouter()
+const { user } = useAuth()
 const { isDark, toggle } = useTheme()
 
 const themes = [
@@ -16,6 +24,28 @@ const themes = [
 const setTheme = (dark: boolean) => {
   if (isDark.value !== dark) toggle()
 }
+
+// Справочники ведёт только суперадмин; вкладка выбирается ссылкой /settings?tab=dictionaries
+type Tab = 'appearance' | 'dictionaries'
+const isSuperAdmin = computed(() => user.value?.role === 'superadmin')
+const tab = ref<Tab>(route.query.tab === 'dictionaries' ? 'dictionaries' : 'appearance')
+watch(
+  () => route.query.tab,
+  (value) => (tab.value = value === 'dictionaries' ? 'dictionaries' : 'appearance'),
+)
+watch(tab, (value) => {
+  void router.replace({ query: value === 'appearance' ? {} : { tab: value } })
+})
+
+const tabOptions = computed(() => {
+  const items: { value: Tab; label: string; icon: typeof Palette }[] = [
+    { value: 'appearance', label: t('Оформление'), icon: Palette },
+  ]
+  if (isSuperAdmin.value)
+    items.push({ value: 'dictionaries', label: t('Справочники'), icon: ListTree })
+  return items
+})
+const showDictionaries = computed(() => tab.value === 'dictionaries' && isSuperAdmin.value)
 </script>
 
 <template>
@@ -23,13 +53,20 @@ const setTheme = (dark: boolean) => {
     <header>
       <h1 class="text-2xl font-semibold tracking-tight text-zinc-950">{{ $t('Настройки') }}</h1>
       <p class="mt-1 text-sm text-zinc-700">
-        {{ $t('Профиль, пароль и тема оформления') }}
+        {{ $t('Тема оформления и справочники') }}
       </p>
     </header>
 
-    <ProfilePanel />
+    <SegmentedControl
+      v-if="tabOptions.length > 1"
+      v-model="tab"
+      :label="$t('Раздел настроек')"
+      :options="tabOptions"
+    />
 
-    <BasePanel class="flex flex-col gap-7">
+    <DictionariesPanel v-if="showDictionaries" />
+
+    <BasePanel v-else class="flex flex-col gap-7">
       <PanelHeader :icon="Palette" :title="$t('Оформление')" />
 
       <fieldset>

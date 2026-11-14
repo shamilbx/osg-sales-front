@@ -201,19 +201,19 @@ async function submit() {
       await createContact(companyId, { ...contact, is_primary: true })
     } catch (error) {
       toast.error(
-        t('Компания создана, но контакт не сохранён'),
+        t('Клиент создан, но контакт не сохранён'),
         error instanceof ApiError ? error.message : undefined,
       )
-      await router.push(`/companies/${companyId}`)
+      await router.push(`/clients/${companyId}`)
       return
     }
   }
 
-  toast.success(t('Компания создана'), form.name.trim())
-  await router.push(`/companies/${companyId}`)
+  toast.success(t('Клиент создан'), form.name.trim())
+  await router.push(`/clients/${companyId}`)
 }
 
-const openDuplicate = () => duplicate.value && router.push(`/companies/${duplicate.value.found.id}`)
+const openDuplicate = () => duplicate.value && router.push(`/clients/${duplicate.value.found.id}`)
 
 const sectionGrid = 'grid gap-x-5 gap-y-4 sm:grid-cols-2 xl:grid-cols-3'
 
@@ -232,10 +232,10 @@ const ids = {
 <template>
   <form class="flex min-h-full flex-col gap-4" novalidate @submit.prevent="submit">
     <FormPageHeader
-      :title="$t('Добавить компанию')"
+      :title="$t('Добавить клиента')"
       :subtitle="$t('Заполните данные клиента, его социальные сети и контактное лицо')"
-      back-to="/companies"
-      :back-label="$t('Компании')"
+      back-to="/clients"
+      :back-label="$t('Клиенты')"
     />
 
     <div
@@ -261,7 +261,7 @@ const ids = {
     <FormSection :number="1" :title="$t('Основная информация')">
       <div :class="sectionGrid">
         <FormField
-          :label="$t('Название компании')"
+          :label="$t('Название клиента')"
           :for="ids.name"
           required
           :error="errors.name"
@@ -363,9 +363,7 @@ const ids = {
     <FormSection :number="3" :title="$t('Контактное лицо')">
       <p class="-mt-2 text-sm text-zinc-500">
         {{
-          $t(
-            'Необязательно. Контакт станет основным; остальных можно добавить в карточке компании.',
-          )
+          $t('Необязательно. Контакт станет основным; остальных можно добавить в карточке клиента.')
         }}
       </p>
       <div :class="sectionGrid">
@@ -452,7 +450,7 @@ const ids = {
       <p v-if="formError" role="alert" class="text-sm text-rose-600">{{ formError }}</p>
       <div class="ml-auto flex gap-3">
         <RouterLink
-          to="/companies"
+          to="/clients"
           class="flex h-12 items-center rounded-xl border border-zinc-200 bg-white px-6 text-[15px] font-medium text-zinc-700 transition-colors hover:bg-zinc-50"
         >
           {{ $t('Отмена') }}
@@ -462,7 +460,7 @@ const ids = {
           :disabled="saving"
           class="h-12 rounded-xl bg-zinc-950 px-7 text-[15px] font-semibold text-white transition-colors hover:bg-zinc-800 disabled:cursor-wait disabled:opacity-70"
         >
-          {{ $t('Сохранить компанию') }}
+          {{ $t('Сохранить клиента') }}
         </button>
       </div>
     </div>

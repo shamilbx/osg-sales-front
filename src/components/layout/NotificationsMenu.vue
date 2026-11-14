@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { onClickOutside, onKeyStroke } from '@vueuse/core'
-import { Bell, BellOff, CheckCheck, ShieldCheck } from '@lucide/vue'
+import { Bell, BellOff, CheckCheck, ShieldCheck, UserPlus } from '@lucide/vue'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { t } from '@/i18n'
@@ -39,6 +39,7 @@ const label = computed(() =>
 const defaultStyle = { icon: Bell, tile: 'bg-zinc-100 text-zinc-600' }
 const kindStyle: Record<string, { icon: typeof Bell; tile: string }> = {
   role_changed: { icon: ShieldCheck, tile: 'bg-violet-100 text-violet-700' },
+  lead_assigned: { icon: UserPlus, tile: 'bg-sky-100 text-sky-700' },
 }
 const styleOf = (kind: string) => kindStyle[kind] ?? defaultStyle
 

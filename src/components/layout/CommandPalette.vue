@@ -39,7 +39,7 @@ const activeIndex = ref(0)
 const list = ref<HTMLElement | null>(null)
 
 const groupLabels: Record<Kind, string> = {
-  company: 'Компании',
+  company: 'Клиенты',
   module: 'Модули',
   section: 'Разделы',
 }
@@ -127,7 +127,7 @@ const companyItems = computed<PaletteItem[]>(() =>
       .filter(Boolean)
       .join(' · '),
     icon: Building2,
-    run: () => go(`/companies/${company.id}`),
+    run: () => go(`/clients/${company.id}`),
   })),
 )
 
@@ -200,7 +200,7 @@ function onKeydown(event: KeyboardEvent) {
     >
       <DialogTitle class="sr-only">{{ $t('Поиск по CRM') }}</DialogTitle>
       <DialogDescription class="sr-only">
-        {{ $t('Найдите компанию, контакт, модуль или раздел и откройте его') }}
+        {{ $t('Найдите клиента, контакт, модуль или раздел и откройте его') }}
       </DialogDescription>
 
       <div class="flex items-center gap-3 border-b border-zinc-100 px-5">
@@ -212,7 +212,7 @@ function onKeydown(event: KeyboardEvent) {
           aria-expanded="true"
           aria-controls="palette-list"
           :aria-label="$t('Поиск по CRM')"
-          :placeholder="$t('Компания, ИНН, контакт или раздел')"
+          :placeholder="$t('Клиент, ИНН, контакт или раздел')"
           autocomplete="off"
           class="h-14 min-w-0 flex-1 bg-transparent text-[15px] text-zinc-900 outline-none placeholder:text-zinc-400"
           @keydown="onKeydown"
@@ -287,7 +287,7 @@ function onKeydown(event: KeyboardEvent) {
           <p class="text-sm font-semibold text-zinc-900">{{ $t('Ничего не найдено') }}</p>
           <p class="text-[13px] text-zinc-500">
             {{
-              $t('Проверьте написание или введите название компании, ИНН, имя или телефон контакта')
+              $t('Проверьте написание или введите название клиента, ИНН, имя или телефон контакта')
             }}
           </p>
         </div>

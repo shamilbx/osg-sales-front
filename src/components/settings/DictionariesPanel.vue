@@ -125,16 +125,13 @@ async function toggleSphere(sphere: Sphere, active: boolean) {
 
 <template>
   <div class="flex flex-col gap-4">
-    <header>
-      <h1 class="text-2xl font-semibold tracking-tight text-zinc-950">{{ $t('Справочники') }}</h1>
-      <p class="mt-1 text-sm text-zinc-700">
-        {{
-          $t(
-            'Отрасли и сферы клиентов. Записи отключаются, а не удаляются: на них ссылаются компании.',
-          )
-        }}
-      </p>
-    </header>
+    <p class="text-sm text-zinc-700">
+      {{
+        $t(
+          'Отрасли и сферы клиентов. Записи отключаются, а не удаляются: на них ссылаются клиенты.',
+        )
+      }}
+    </p>
 
     <p v-if="error" role="alert" class="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
       {{ error }}

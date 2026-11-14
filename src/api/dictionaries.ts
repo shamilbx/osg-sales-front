@@ -14,9 +14,25 @@ export interface Industry {
   spheres: Sphere[]
 }
 
-/** Только включённые отрасли и сферы: для форм и фильтров */
+export interface LeadSource {
+  id: number
+  name: string
+  is_active: boolean
+}
+
+export interface PipelineStage {
+  id: number
+  name: string
+  position: number
+}
+
+/** Только включённые записи: отрасли со сферами, источники лидов и стадии воронки — для форм и фильтров */
 export async function listDictionaries() {
-  return (await request<{ industries: Industry[] }>('/api/dictionaries')).industries
+  return request<{
+    industries: Industry[]
+    lead_sources: LeadSource[]
+    pipeline_stages: PipelineStage[]
+  }>('/api/dictionaries')
 }
 
 /** Все отрасли и сферы, включая отключённые: для суперадмина */

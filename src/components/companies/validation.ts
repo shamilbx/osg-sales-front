@@ -4,7 +4,7 @@ import { t } from '@/i18n'
 
 export function companyNameError(value: string) {
   const length = [...value.trim().replace(/\s+/g, ' ')].length
-  if (length === 0) return t('Введите название компании')
+  if (length === 0) return t('Введите название клиента')
   if (length < 2 || length > 255) return t('Название: от 2 до 255 символов')
   return ''
 }

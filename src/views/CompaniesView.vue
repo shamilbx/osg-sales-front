@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { t } from '@/i18n'
 import { computed, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { watchDebounced } from '@vueuse/core'
 import { Building2, Globe, Plus, Search, Users } from '@lucide/vue'
 import { ApiError } from '@/api/http'
@@ -19,9 +19,7 @@ import { formatPhone } from '@/lib/phone'
 import { cn } from '@/lib/utils'
 import FilterDropdown, { type FilterOption } from '@/components/common/FilterDropdown.vue'
 import TablePagination from '@/components/common/TablePagination.vue'
-import CompanyDrawer from '@/components/companies/CompanyDrawer.vue'
 
-const route = useRoute()
 const router = useRouter()
 const { user: me } = useAuth()
 const dictionaries = useDictionaries()
@@ -121,32 +119,11 @@ const sortFilter = computed<FilterOption<CompanySort>[]>(() => [
   { value: 'contacts', label: t('По числу контактов') },
 ])
 
-// Карточка компании. Ссылка /companies/:id открывает её сразу, по ней ведут уведомления и подсказки о дубликатах
-const routeId = computed(() => Number(route.params.id) || null)
-const drawerOpen = ref(false)
-const selectedId = ref<number | null>(null)
-
-watch(
-  routeId,
-  (id) => {
-    if (id) {
-      selectedId.value = id
-      drawerOpen.value = true
-    }
-  },
-  { immediate: true },
-)
-watch(drawerOpen, (isOpen) => {
-  if (!isOpen && routeId.value) void router.replace('/companies')
-})
-
 const canCreate = computed(() => me.value?.role === 'superadmin' || me.value?.role === 'manager')
 
-function openCompany(company: Company) {
-  void router.push(`/companies/${company.id}`)
-}
+const openCompany = (company: Company) => router.push(`/clients/${company.id}`)
 
-const openCreate = () => router.push('/companies/new')
+const openCreate = () => router.push('/clients/new')
 </script>
 
 <template>
@@ -154,7 +131,7 @@ const openCreate = () => router.push('/companies/new')
   <div class="flex h-full min-h-0 flex-col gap-4">
     <header class="flex shrink-0 flex-wrap items-end justify-between gap-3">
       <div>
-        <h1 class="text-2xl font-semibold tracking-tight text-zinc-950">{{ $t('Компании') }}</h1>
+        <h1 class="text-2xl font-semibold tracking-tight text-zinc-950">{{ $t('Клиенты') }}</h1>
         <p class="mt-1 text-sm text-zinc-700">
           {{ $t('Клиенты, их контакты и ответственные менеджеры') }}
         </p>
@@ -166,7 +143,7 @@ const openCreate = () => router.push('/companies/new')
         @click="openCreate"
       >
         <Plus class="size-4" />
-        {{ $t('Добавить компанию') }}
+        {{ $t('Добавить клиента') }}
       </button>
     </header>
 
@@ -176,7 +153,7 @@ const openCreate = () => router.push('/companies/new')
 
     <div class="flex shrink-0 flex-wrap items-center gap-2">
       <label class="relative min-w-[220px] flex-1 sm:max-w-[340px]">
-        <span class="sr-only">{{ $t('Поиск компаний') }}</span>
+        <span class="sr-only">{{ $t('Поиск клиентов') }}</span>
         <Search
           class="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-zinc-400"
         />
@@ -229,7 +206,7 @@ const openCreate = () => router.push('/companies/new')
             class="sticky top-0 z-10 border-b border-zinc-100 bg-zinc-50 text-xs text-zinc-500"
           >
             <tr>
-              <th class="px-5 py-3 font-medium">{{ $t('Компания') }}</th>
+              <th class="px-5 py-3 font-medium">{{ $t('Клиент') }}</th>
               <th class="px-5 py-3 font-medium">{{ $t('Отрасль и сфера') }}</th>
               <th class="px-5 py-3 font-medium">{{ $t('Основной контакт') }}</th>
               <th class="px-5 py-3 font-medium">{{ $t('Ответственный') }}</th>
@@ -308,7 +285,7 @@ const openCreate = () => router.push('/companies/new')
             </tr>
             <tr v-if="!loading && companies.length === 0">
               <td colspan="5" class="px-5 py-12 text-center text-sm text-zinc-500">
-                {{ $t('Компании не найдены') }}
+                {{ $t('Клиенты не найдены') }}
               </td>
             </tr>
           </tbody>
@@ -321,7 +298,5 @@ const openCreate = () => router.push('/companies/new')
         class="shrink-0"
       />
     </section>
-
-    <CompanyDrawer v-model:open="drawerOpen" :company-id="selectedId" @changed="load" />
   </div>
 </template>

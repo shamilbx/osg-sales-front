@@ -24,7 +24,7 @@ onKeyStroke(['k', 'K'], (event) => {
       @click="open = true"
     >
       <Search class="size-[18px] shrink-0 text-zinc-500" />
-      <span class="truncate">{{ $t('Поиск компаний, контактов, разделов…') }}</span>
+      <span class="truncate">{{ $t('Поиск клиентов, контактов, разделов…') }}</span>
       <kbd
         class="pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 rounded-lg bg-zinc-100 px-2 py-1 text-xs font-semibold text-zinc-500 sm:block"
       >

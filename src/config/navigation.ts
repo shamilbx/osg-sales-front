@@ -4,9 +4,9 @@ import {
   Building2,
   LayoutDashboard,
   LifeBuoy,
-  ListTree,
   Settings,
   TrendingUp,
+  UserPlus,
   UsersRound,
 } from '@lucide/vue'
 import type { Tone } from '@/lib/types'
@@ -61,10 +61,17 @@ export const modules: NavModule[] = [
       },
       {
         get title() {
-          return t('Компании')
+          return t('Клиенты')
         },
-        to: '/companies',
+        to: '/clients',
         icon: Building2,
+      },
+      {
+        get title() {
+          return t('Лиды')
+        },
+        to: '/leads',
+        icon: UserPlus,
       },
     ],
   },
@@ -77,14 +84,6 @@ export const systemNav: NavItem[] = [
     },
     to: '/users',
     icon: UsersRound,
-    roles: ['superadmin'],
-  },
-  {
-    get title() {
-      return t('Справочники')
-    },
-    to: '/dictionaries',
-    icon: ListTree,
     roles: ['superadmin'],
   },
   {
@@ -114,7 +113,7 @@ export const canSee = (item: NavItem, role: Role | undefined) =>
   !item.roles || (role !== undefined && item.roles.includes(role))
 
 /** Разделы со своей страницей; остальным пунктам меню показывается заглушка */
-const pages = ['/', '/settings', '/users', '/companies', '/dictionaries']
+const pages = ['/', '/settings', '/profile', '/users', '/clients', '/leads']
 
 /** Разделы, для которых пока показывается заглушка */
 export const placeholderSlugs = allNav

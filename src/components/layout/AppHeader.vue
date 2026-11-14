@@ -99,10 +99,10 @@ const iconButton =
 
       <NotificationsMenu :button-class="iconButton" />
 
-      <button
-        type="button"
+      <RouterLink
+        to="/profile"
         class="flex items-center gap-3 rounded-xl py-1 pr-2 pl-1 transition-colors hover:bg-white/70"
-        :aria-label="$t('Профиль менеджера')"
+        :aria-label="$t('Профиль')"
       >
         <span class="hidden text-right leading-tight xl:block">
           <span class="block text-sm font-semibold text-zinc-950">{{ displayName }}</span>
@@ -115,7 +115,7 @@ const iconButton =
             {{ initials }}
           </AvatarFallback>
         </Avatar>
-      </button>
+      </RouterLink>
     </div>
   </header>
 </template>
