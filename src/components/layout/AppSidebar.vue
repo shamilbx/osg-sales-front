@@ -85,7 +85,7 @@ const isActive = (to: string) => isActivePath(to, route.path)
   <aside
     :class="
       cn(
-        'relative flex min-h-0 flex-col overflow-y-auto sidebar-glass rounded-[24px] p-4 text-white',
+        'relative flex min-h-0 flex-col overflow-y-auto sidebar-glass rounded-[18px] p-4 text-white',
         collapsed && 'px-3',
       )
     "
@@ -175,8 +175,8 @@ const isActive = (to: string) => isActivePath(to, route.path)
                 'group relative flex h-10 items-center gap-3 rounded-xl px-3.5 text-[15px] font-semibold transition-all duration-200 outline-none focus-visible:ring-3 focus-visible:ring-ring/50',
                 collapsed && 'justify-center px-0',
                 isActive(item.to)
-                  ? 'bg-white/15 text-white ring-1 ring-white/10'
-                  : 'text-white/90 hover:bg-white/10 hover:text-white',
+                  ? 'bg-white/10 text-white before:absolute before:top-2 before:bottom-2 before:left-0 before:w-[3px] before:rounded-full before:bg-brand'
+                  : 'text-white/85 hover:bg-white/[0.07] hover:text-white',
               )
             "
           >
@@ -185,7 +185,7 @@ const isActive = (to: string) => isActivePath(to, route.path)
               :class="
                 cn(
                   'size-[17px] shrink-0 transition-transform group-hover:scale-110',
-                  isActive(item.to) ? 'text-white' : 'text-white/75 group-hover:text-white',
+                  isActive(item.to) ? 'text-[#ff6b6b]' : 'text-white/70 group-hover:text-white',
                 )
               "
               :stroke-width="1.9"
@@ -197,7 +197,7 @@ const isActive = (to: string) => isActivePath(to, route.path)
                 :class="
                   cn(
                     'grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[11px] font-semibold',
-                    isActive(item.to) ? 'bg-white/20 text-white' : 'bg-brand-pink text-white',
+                    isActive(item.to) ? 'bg-white/20 text-white' : 'bg-brand text-white',
                   )
                 "
               >
@@ -206,7 +206,7 @@ const isActive = (to: string) => isActivePath(to, route.path)
             </template>
             <span
               v-else-if="item.badge"
-              class="absolute top-2 right-2.5 size-2 rounded-full bg-brand-pink ring-2 ring-[#e12526]"
+              class="absolute top-2 right-2.5 size-2 rounded-full bg-brand ring-2 ring-[#101e3d]"
             />
           </RouterLink>
         </nav>

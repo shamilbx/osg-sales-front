@@ -65,7 +65,7 @@ watch(reduceMotion, (value) => {
 <template>
   <section
     ref="section"
-    class="relative overflow-hidden rounded-[24px] bg-black px-6 py-10 text-white sm:px-10 sm:py-12"
+    class="relative overflow-hidden rounded-[18px] bg-black px-6 py-10 text-white sm:px-10 sm:py-12"
   >
     <!-- Матрица: падающие символы на чёрном фоне -->
     <canvas

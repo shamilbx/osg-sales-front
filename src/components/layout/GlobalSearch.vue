@@ -20,7 +20,7 @@ onKeyStroke(['k', 'K'], (event) => {
       type="button"
       aria-haspopup="dialog"
       :aria-label="$t('Открыть поиск по CRM')"
-      class="relative flex h-11 w-full min-w-0 items-center gap-3 rounded-xl border border-zinc-200 bg-white pr-4 pl-4 text-left text-sm text-zinc-400 transition-colors outline-none hover:border-zinc-300 focus-visible:border-zinc-400 focus-visible:ring-3 focus-visible:ring-zinc-900/5 sm:pr-16"
+      class="relative flex h-11 w-full min-w-0 items-center gap-3 rounded-xl border border-zinc-200 bg-white pr-4 pl-4 text-left text-sm text-zinc-400 transition-colors outline-none hover:border-zinc-300 focus-visible:border-brand focus-visible:ring-3 focus-visible:ring-brand/15 sm:pr-16"
       @click="open = true"
     >
       <Search class="size-[18px] shrink-0 text-zinc-500" />

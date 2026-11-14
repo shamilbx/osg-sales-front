@@ -184,7 +184,7 @@ const openDuplicate = () =>
       </button>
       <button
         type="submit"
-        class="h-10 rounded-xl bg-zinc-950 px-4 text-[13px] font-semibold text-white transition-colors hover:bg-zinc-800 disabled:opacity-60"
+        class="h-10 rounded-xl bg-brand px-4 text-[13px] font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
         :disabled="saving"
       >
         {{ contact ? $t('Сохранить') : $t('Добавить контакт') }}

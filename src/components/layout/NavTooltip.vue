@@ -11,12 +11,12 @@ const { tip } = useNavTooltip()
       <div
         v-if="tip"
         role="tooltip"
-        class="pointer-events-none fixed z-[100] -translate-y-1/2 rounded-xl bg-zinc-950 px-3 py-1.5 text-[13px] font-medium whitespace-nowrap text-white shadow-lg ring-1 ring-white/10"
+        class="pointer-events-none fixed z-[100] -translate-y-1/2 rounded-xl bg-ink px-3 py-1.5 text-[13px] font-medium whitespace-nowrap text-white shadow-lg ring-1 ring-white/10"
         :style="{ top: `${tip.top}px`, left: `${tip.left}px` }"
       >
         <span
           aria-hidden="true"
-          class="absolute top-1/2 -left-1 size-2 -translate-y-1/2 rotate-45 rounded-[2px] bg-zinc-950"
+          class="absolute top-1/2 -left-1 size-2 -translate-y-1/2 rotate-45 rounded-[2px] bg-ink"
         />
         {{ tip.text }}
       </div>

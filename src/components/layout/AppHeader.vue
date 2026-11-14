@@ -37,7 +37,7 @@ const iconButton =
 <template>
   <!-- z-30: меню модулей и языка раскрываются поверх панелей страницы, у каждой из них свой слой -->
   <!-- В разделах шапка — отдельная белая карточка; на экране «Центр управления» её оборачивает страница -->
-  <header :class="cn('relative z-30 min-w-0', !hub && 'glass min-h-[92px] rounded-[24px]')">
+  <header :class="cn('relative z-30 min-w-0', !hub && 'glass min-h-[92px] rounded-[18px]')">
     <div
       :class="
         cn('relative flex items-center gap-3 sm:gap-4', !hub && 'px-3 py-4 sm:px-5 sm:py-5 lg:px-6')

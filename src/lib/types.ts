@@ -1,6 +1,6 @@
 export type Period = 'day' | 'week' | 'month'
 
-export type Tone = 'blue' | 'green' | 'orange' | 'pink' | 'violet'
+export type Tone = 'blue' | 'green' | 'orange' | 'pink' | 'violet' | 'red'
 
 export type MetricFormat = 'number' | 'currency' | 'percent'
 

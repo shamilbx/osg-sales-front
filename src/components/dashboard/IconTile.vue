@@ -13,6 +13,7 @@ const props = defineProps<{
 
 const toneStyles: Record<Tone, string> = {
   blue: 'from-[#93a9ff] to-[#5373f6] shadow-[0_6px_14px_-6px_rgba(83,115,246,.9)]',
+  red: 'from-[#ff6f6f] to-[#e52b2b] shadow-[0_6px_14px_-6px_rgba(229,43,43,.9)]',
   green: 'from-[#6ee59a] to-[#1fb556] shadow-[0_6px_14px_-6px_rgba(31,181,86,.9)]',
   orange: 'from-[#ffb07e] to-[#f7652f] shadow-[0_6px_14px_-6px_rgba(247,101,47,.9)]',
   pink: 'from-[#ff94c2] to-[#ee4589] shadow-[0_6px_14px_-6px_rgba(238,69,137,.9)]',

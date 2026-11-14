@@ -119,7 +119,7 @@ function pickFirst() {
           autocomplete="off"
           :placeholder="searchPlaceholder ?? $t('Найти')"
           :aria-label="searchPlaceholder ?? $t('Найти')"
-          class="h-10 w-full rounded-xl border border-zinc-200 bg-zinc-50/60 pr-3 pl-9 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus-visible:border-zinc-400 focus-visible:ring-3 focus-visible:ring-zinc-900/5"
+          class="h-10 w-full rounded-xl border border-zinc-200 bg-zinc-50/60 pr-3 pl-9 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus-visible:border-brand focus-visible:ring-3 focus-visible:ring-brand/15"
           @keydown.enter.prevent="pickFirst"
         />
       </div>
@@ -139,7 +139,7 @@ function pickFirst() {
             cn(
               'flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium transition-colors',
               option.value === model
-                ? 'bg-zinc-950 font-semibold text-white'
+                ? 'bg-brand font-semibold text-white'
                 : 'bg-zinc-50 text-zinc-800 hover:bg-zinc-100',
             )
           "

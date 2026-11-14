@@ -34,7 +34,7 @@ onKeyStroke('Escape', () => {
         :aria-label="title"
         :class="
           cn(
-            'absolute inset-y-3 right-3 flex w-[560px] max-w-[calc(100vw-24px)] flex-col overflow-hidden rounded-[28px] bg-white shadow-2xl transition-transform duration-300',
+            'absolute inset-y-3 right-3 flex w-[560px] max-w-[calc(100vw-24px)] flex-col overflow-hidden rounded-[20px] bg-white shadow-2xl transition-transform duration-300',
             open ? 'translate-x-0' : 'translate-x-[110%]',
           )
         "

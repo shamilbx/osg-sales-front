@@ -149,7 +149,7 @@ async function toggleSphere(sphere: Sphere, active: boolean) {
           />
           <button
             type="submit"
-            class="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl bg-zinc-950 px-4 text-sm font-semibold text-white transition-colors hover:bg-zinc-800"
+            class="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
           >
             <Plus class="size-4" />
             {{ $t('Добавить') }}
@@ -164,7 +164,7 @@ async function toggleSphere(sphere: Sphere, active: boolean) {
               cn(
                 'flex items-center gap-2 rounded-xl border px-3 py-2',
                 industry.id === selectedId
-                  ? 'border-zinc-950/20 bg-zinc-50'
+                  ? 'border-brand/20 bg-zinc-50'
                   : 'border-transparent hover:bg-zinc-50',
               )
             "
@@ -246,7 +246,7 @@ async function toggleSphere(sphere: Sphere, active: boolean) {
             />
             <button
               type="submit"
-              class="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl bg-zinc-950 px-4 text-sm font-semibold text-white transition-colors hover:bg-zinc-800"
+              class="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
             >
               <Plus class="size-4" />
               {{ $t('Добавить') }}

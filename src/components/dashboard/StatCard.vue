@@ -25,7 +25,7 @@ const positive = computed(() => snapshot.value.delta >= 0)
 
 <template>
   <article
-    class="group flex flex-col justify-between gap-5 glass rounded-[24px] p-4 transition-[scale,box-shadow] duration-200 ease-out hover:scale-[1.025] hover:shadow-[0_18px_40px_-22px_rgba(16,24,40,.4)] motion-reduce:transition-none motion-reduce:hover:scale-100"
+    class="group flex flex-col justify-between gap-5 glass rounded-[18px] p-4 transition-[scale,box-shadow] duration-200 ease-out hover:scale-[1.025] hover:shadow-[0_18px_40px_-22px_rgba(16,24,40,.4)] motion-reduce:transition-none motion-reduce:hover:scale-100"
   >
     <div class="flex items-start gap-3">
       <IconTile :icon="icons[metric.icon]" :tone="metric.tone" />
@@ -36,7 +36,7 @@ const positive = computed(() => snapshot.value.delta >= 0)
       <button
         type="button"
         :aria-label="$t('Подробнее: {name}', { name: metric.title })"
-        class="grid size-8 shrink-0 place-items-center rounded-full bg-zinc-100/80 text-zinc-600 transition-all hover:bg-zinc-950 hover:text-white"
+        class="grid size-8 shrink-0 place-items-center rounded-full bg-zinc-100/80 text-zinc-600 transition-all hover:bg-brand hover:text-white"
       >
         <ArrowUpRight class="size-3.5 transition-transform group-hover:rotate-12" />
       </button>

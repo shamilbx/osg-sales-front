@@ -479,7 +479,12 @@ watch(
   { immediate: true },
 )
 
+// Основная кнопка красная (--color-brand), вторичные — белые с рамкой
 const headerButton =
+  'inline-flex h-10 items-center gap-2 rounded-xl bg-brand px-4 text-[13px] font-semibold text-white transition-colors hover:bg-brand-dark disabled:pointer-events-none disabled:opacity-60'
+const smallButton =
+  'inline-flex h-9 items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3 text-[13px] font-semibold text-zinc-900 transition-colors hover:bg-zinc-100'
+const plainButton =
   'inline-flex h-10 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 text-[13px] font-semibold text-zinc-900 transition-colors hover:bg-zinc-50 disabled:pointer-events-none disabled:opacity-60'
 </script>
 
@@ -538,7 +543,7 @@ const headerButton =
           </div>
 
           <div class="flex flex-wrap items-center gap-2">
-            <button type="button" :class="headerButton" @click="router.push('/clients')">
+            <button type="button" :class="plainButton" @click="router.push('/clients')">
               <ArrowLeft class="size-4" />
               {{ $t('Назад') }}
             </button>
@@ -556,8 +561,8 @@ const headerButton =
               type="button"
               :class="
                 cn(
-                  headerButton,
-                  confirmArchive && 'border-rose-600 bg-rose-600 text-white hover:bg-rose-700',
+                  plainButton,
+                  confirmArchive && 'border-brand bg-brand text-white hover:bg-brand-dark',
                 )
               "
               :disabled="archiving"
@@ -593,7 +598,7 @@ const headerButton =
                 cn(
                   'inline-flex h-10 items-center gap-2 rounded-xl px-4 text-[13px] font-semibold transition-colors',
                   tab === item.id
-                    ? 'bg-zinc-950 text-white'
+                    ? 'bg-brand text-white'
                     : 'text-zinc-700 hover:bg-white hover:text-zinc-950',
                 )
               "
@@ -760,12 +765,12 @@ const headerButton =
             </FormField>
 
             <div class="flex justify-end gap-2">
-              <button type="button" :class="headerButton" @click="cancelEdit">
+              <button type="button" :class="plainButton" @click="cancelEdit">
                 {{ $t('Отмена') }}
               </button>
               <button
                 type="submit"
-                class="h-10 rounded-xl bg-zinc-950 px-5 text-[13px] font-semibold text-white transition-colors hover:bg-zinc-800 disabled:opacity-60"
+                class="h-10 rounded-xl bg-brand px-5 text-[13px] font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
                 :disabled="saving"
               >
                 {{ $t('Сохранить') }}
@@ -777,12 +782,7 @@ const headerButton =
         <div v-else class="grid gap-4 lg:grid-cols-3">
           <InfoCard :title="$t('О клиенте')">
             <template #action>
-              <button
-                v-if="canEdit"
-                type="button"
-                class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-sky-700 transition-colors hover:text-sky-900"
-                @click="startEdit"
-              >
+              <button v-if="canEdit" type="button" :class="smallButton" @click="startEdit">
                 <Pencil class="size-3.5" />
                 {{ $t('Редактировать') }}
               </button>
@@ -878,11 +878,7 @@ const headerButton =
               <h2 class="text-base font-semibold tracking-tight text-zinc-950">
                 {{ $t('Лиды клиента') }}
               </h2>
-              <button
-                type="button"
-                class="inline-flex h-9 items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3 text-[13px] font-semibold text-zinc-900 transition-colors hover:bg-zinc-50"
-                @click="tab = 'leads'"
-              >
+              <button type="button" :class="smallButton" @click="tab = 'leads'">
                 {{ $t('Все лиды') }}
                 <ArrowRight class="size-3.5" />
               </button>
@@ -962,7 +958,7 @@ const headerButton =
             :class="
               cn(
                 'rounded-2xl border p-4',
-                contact.is_primary ? 'border-zinc-950/15 bg-zinc-50' : 'border-zinc-200 bg-white',
+                contact.is_primary ? 'border-brand/15 bg-zinc-50' : 'border-zinc-200 bg-white',
               )
             "
           >
@@ -972,7 +968,7 @@ const headerButton =
                   {{ contact.full_name }}
                   <span
                     v-if="contact.is_primary"
-                    class="inline-flex items-center gap-1 rounded-full bg-zinc-950 px-2 py-0.5 text-[11px] font-semibold text-white"
+                    class="inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-[11px] font-semibold text-white"
                   >
                     <Star class="size-3" />
                     {{ $t('Основной') }}

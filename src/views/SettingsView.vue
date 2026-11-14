@@ -77,10 +77,8 @@ const showDictionaries = computed(() => tab.value === 'dictionaries' && isSuperA
             :key="item.label"
             :class="
               cn(
-                'flex h-10 cursor-pointer items-center gap-2 rounded-xl px-4 text-sm font-medium transition-colors has-focus-visible:ring-3 has-focus-visible:ring-zinc-900/15',
-                isDark === item.dark
-                  ? 'bg-zinc-950 text-white'
-                  : 'text-zinc-600 hover:text-zinc-950',
+                'flex h-10 cursor-pointer items-center gap-2 rounded-xl px-4 text-sm font-medium transition-colors has-focus-visible:ring-3 has-focus-visible:ring-brand/25',
+                isDark === item.dark ? 'bg-brand text-white' : 'text-zinc-600 hover:text-zinc-950',
               )
             "
           >

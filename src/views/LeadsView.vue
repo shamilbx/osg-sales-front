@@ -173,7 +173,7 @@ function onCreated(id: number) {
       <button
         v-if="canCreate"
         type="button"
-        class="inline-flex h-11 items-center gap-2 rounded-xl bg-zinc-950 px-4 text-sm font-semibold text-white transition-colors hover:bg-zinc-800"
+        class="inline-flex h-11 items-center gap-2 rounded-xl bg-brand px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
         @click="openCreate"
       >
         <Plus class="size-4" />
@@ -195,7 +195,7 @@ function onCreated(id: number) {
           v-model="query"
           type="search"
           :placeholder="$t('Имя, компания, телефон или email')"
-          class="h-10 w-full rounded-xl border border-zinc-200 bg-white pr-3.5 pl-10 text-[13px] text-zinc-900 outline-none transition-colors placeholder:text-zinc-400 hover:border-zinc-300 focus-visible:border-zinc-400 focus-visible:ring-3 focus-visible:ring-zinc-900/5"
+          class="h-10 w-full rounded-xl border border-zinc-200 bg-white pr-3.5 pl-10 text-[13px] text-zinc-900 outline-none transition-colors placeholder:text-zinc-400 hover:border-zinc-300 focus-visible:border-brand focus-visible:ring-3 focus-visible:ring-brand/15"
         />
       </label>
       <FilterDropdown
@@ -225,7 +225,7 @@ function onCreated(id: number) {
     </div>
 
     <section
-      class="flex min-h-[260px] min-w-0 flex-1 flex-col overflow-hidden rounded-[24px] border border-zinc-100 bg-white"
+      class="flex min-h-[260px] min-w-0 flex-1 flex-col overflow-hidden rounded-[18px] border border-zinc-100 bg-white"
     >
       <div class="min-h-0 flex-1 overflow-auto">
         <table class="w-full min-w-[900px] text-left">

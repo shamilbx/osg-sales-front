@@ -261,7 +261,7 @@ function onKeydown(event: KeyboardEvent) {
             </span>
             <span
               v-else-if="item.icon"
-              class="grid size-9 shrink-0 place-items-center rounded-xl bg-sky-50 text-sky-700"
+              class="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand"
             >
               <component :is="item.icon" class="size-[18px]" :stroke-width="1.9" />
             </span>

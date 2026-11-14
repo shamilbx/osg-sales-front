@@ -76,10 +76,10 @@ const fieldClass =
     </div>
 
     <main class="relative w-full max-w-[440px]">
-      <div class="rounded-[28px] border border-zinc-200 bg-white p-7 text-zinc-900 sm:p-9">
+      <div class="rounded-[20px] border border-zinc-200 bg-white p-7 text-zinc-900 sm:p-9">
         <div>
           <div class="flex items-center gap-2.5">
-            <span class="grid size-10 place-items-center rounded-[14px] bg-zinc-950 text-white">
+            <span class="grid size-10 place-items-center rounded-[14px] bg-brand text-white">
               <Plane class="size-5 -rotate-45" :stroke-width="2.25" />
             </span>
             <span class="text-xl font-semibold tracking-tight">
@@ -199,7 +199,7 @@ const fieldClass =
             <button
               type="submit"
               :disabled="loading"
-              class="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-zinc-950 text-[15px] font-semibold text-white shadow-[0_14px_28px_-14px_rgba(9,9,11,.7)] transition-all hover:bg-zinc-800 active:translate-y-px disabled:cursor-wait disabled:opacity-80"
+              class="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-[15px] font-semibold text-white shadow-[0_14px_28px_-14px_rgba(229,43,43,.55)] transition-all hover:bg-brand-dark active:translate-y-px disabled:cursor-wait disabled:opacity-80"
             >
               <span
                 v-if="loading"

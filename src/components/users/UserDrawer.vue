@@ -366,7 +366,7 @@ const ids = {
         <button
           type="submit"
           form="user-form"
-          class="h-11 rounded-xl bg-zinc-950 px-5 text-sm font-semibold text-white transition-colors hover:bg-zinc-800 disabled:opacity-60"
+          class="h-11 rounded-xl bg-brand px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
           :disabled="saving"
         >
           {{ isNew ? $t('Создать сотрудника') : $t('Сохранить') }}

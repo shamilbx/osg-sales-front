@@ -42,7 +42,7 @@ const baseButton =
         <select
           :value="pageSize"
           :aria-label="$t('Показывать по')"
-          class="h-9 appearance-none rounded-xl border border-zinc-200 bg-white pr-8 pl-3 text-[13px] font-medium text-zinc-900 outline-none transition-colors hover:border-zinc-300 focus-visible:border-zinc-400 focus-visible:ring-3 focus-visible:ring-zinc-900/5"
+          class="h-9 appearance-none rounded-xl border border-zinc-200 bg-white pr-8 pl-3 text-[13px] font-medium text-zinc-900 outline-none transition-colors hover:border-zinc-300 focus-visible:border-brand focus-visible:ring-3 focus-visible:ring-brand/15"
           @change="onSize"
         >
           <option v-for="size in pageSizeOptions" :key="size" :value="size">{{ size }}</option>
@@ -86,7 +86,7 @@ const baseButton =
         :class="
           cn(
             baseButton,
-            number === page ? 'bg-zinc-950 text-white' : 'text-zinc-600 hover:bg-zinc-100',
+            number === page ? 'bg-brand text-white' : 'text-zinc-600 hover:bg-zinc-100',
           )
         "
         @click="go(number)"

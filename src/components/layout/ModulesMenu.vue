@@ -74,7 +74,7 @@ const actions = computed<QuickAction[]>(() => [
       :class="
         cn(
           'flex h-11 items-center gap-2.5 rounded-xl px-3 text-[15px] font-semibold transition-colors',
-          open ? 'bg-sky-50 text-sky-700' : 'text-zinc-900 hover:bg-white/70',
+          open ? 'bg-brand-soft text-brand' : 'text-zinc-900 hover:bg-white/70',
         )
       "
       @click="open = !open"
@@ -110,7 +110,7 @@ const actions = computed<QuickAction[]>(() => [
               autocomplete="off"
               :placeholder="$t('Поиск модуля...')"
               :aria-label="$t('Поиск модуля...')"
-              class="h-11 w-full rounded-xl border border-zinc-200 bg-white pr-3 pl-10 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus-visible:border-sky-500 focus-visible:ring-3 focus-visible:ring-sky-500/20"
+              class="h-11 w-full rounded-xl border border-zinc-200 bg-white pr-3 pl-10 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus-visible:border-brand focus-visible:ring-3 focus-visible:ring-brand/15"
               @keydown.enter.prevent="filtered[0] && choose(filtered[0])"
             />
           </div>
@@ -126,7 +126,7 @@ const actions = computed<QuickAction[]>(() => [
               cn(
                 'flex items-center gap-3.5 rounded-2xl border p-3 text-left transition-colors',
                 module.id === activeModule.id
-                  ? 'border-sky-300 bg-sky-50'
+                  ? 'border-brand/40 bg-brand-soft'
                   : 'border-transparent bg-zinc-50 hover:bg-zinc-100',
               )
             "
@@ -138,7 +138,7 @@ const actions = computed<QuickAction[]>(() => [
                 <span class="truncate">{{ module.title }}</span>
                 <span
                   v-if="module.id === activeModule.id"
-                  class="shrink-0 rounded-full bg-sky-600 px-2 py-0.5 text-[10px] font-semibold text-white"
+                  class="shrink-0 rounded-full bg-brand px-2 py-0.5 text-[10px] font-semibold text-white"
                 >
                   {{ $t('Текущий') }}
                 </span>
@@ -161,7 +161,7 @@ const actions = computed<QuickAction[]>(() => [
             <RouterLink
               :to="action.to"
               role="menuitem"
-              class="flex h-10 items-center gap-3 rounded-xl px-2 text-sm font-medium text-sky-700 transition-colors hover:bg-sky-50"
+              class="flex h-10 items-center gap-3 rounded-xl px-2 text-sm font-medium text-brand transition-colors hover:bg-brand-soft"
               @click="open = false"
             >
               <component :is="action.icon" class="size-[18px]" :stroke-width="1.9" />

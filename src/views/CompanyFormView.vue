@@ -241,7 +241,7 @@ const ids = {
     <div
       v-if="duplicate"
       role="alert"
-      class="glass flex flex-wrap items-center justify-between gap-3 rounded-[22px] px-5 py-4 text-sm text-amber-900 ring-1 ring-amber-200 sm:px-6"
+      class="glass flex flex-wrap items-center justify-between gap-3 rounded-[18px] px-5 py-4 text-sm text-amber-900 ring-1 ring-amber-200 sm:px-6"
     >
       <span>
         {{ duplicate.message }}: <b>{{ duplicate.found.name }}</b>
@@ -445,7 +445,7 @@ const ids = {
     </FormSection>
 
     <div
-      class="glass mt-auto flex flex-wrap items-center justify-between gap-3 rounded-[22px] px-5 py-4 sm:px-6 sm:py-5"
+      class="glass mt-auto flex flex-wrap items-center justify-between gap-3 rounded-[18px] px-5 py-4 sm:px-6 sm:py-5"
     >
       <p v-if="formError" role="alert" class="text-sm text-rose-600">{{ formError }}</p>
       <div class="ml-auto flex gap-3">
@@ -458,7 +458,7 @@ const ids = {
         <button
           type="submit"
           :disabled="saving"
-          class="h-12 rounded-xl bg-zinc-950 px-7 text-[15px] font-semibold text-white transition-colors hover:bg-zinc-800 disabled:cursor-wait disabled:opacity-70"
+          class="h-12 rounded-xl bg-brand px-7 text-[15px] font-semibold text-white transition-colors hover:bg-brand-dark disabled:cursor-wait disabled:opacity-70"
         >
           {{ $t('Сохранить клиента') }}
         </button>

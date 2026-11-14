@@ -39,14 +39,14 @@ const actionButton =
   <div class="flex flex-col gap-4">
     <!-- Шапка — отдельный контейнер -->
     <section
-      class="glass rounded-[24px] border border-zinc-200 p-3 shadow-[0_1px_2px_rgba(16,24,40,.04)] sm:p-4"
+      class="glass rounded-[18px] border border-zinc-200 p-3 shadow-[0_1px_2px_rgba(16,24,40,.04)] sm:p-4"
     >
       <AppHeader hub />
     </section>
 
     <!-- Баннер и заголовок списка модулей — второй контейнер -->
     <section
-      class="glass flex flex-col gap-4 rounded-[24px] border border-zinc-200 p-3 shadow-[0_1px_2px_rgba(16,24,40,.04)] sm:p-4"
+      class="glass flex flex-col gap-4 rounded-[18px] border border-zinc-200 p-3 shadow-[0_1px_2px_rgba(16,24,40,.04)] sm:p-4"
     >
       <HubHero />
       <div class="flex flex-wrap items-center justify-between gap-3">
@@ -65,7 +65,7 @@ const actionButton =
               cn(
                 actionButton,
                 showStats &&
-                  'border-zinc-950 bg-zinc-950 text-white hover:bg-zinc-800 hover:text-white',
+                  'border-brand bg-brand text-white hover:bg-brand-dark hover:text-white',
               )
             "
             @click="showStats = !showStats"
@@ -80,8 +80,7 @@ const actionButton =
             :class="
               cn(
                 actionButton,
-                editing &&
-                  'border-zinc-950 bg-zinc-950 text-white hover:bg-zinc-800 hover:text-white',
+                editing && 'border-brand bg-brand text-white hover:bg-brand-dark hover:text-white',
               )
             "
             @click="editing = !editing"

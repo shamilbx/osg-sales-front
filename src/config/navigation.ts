@@ -50,7 +50,7 @@ export const modules: NavModule[] = [
       return t('Данные появятся после подключения сервера')
     },
     icon: TrendingUp,
-    tone: 'blue',
+    tone: 'red',
     items: [
       {
         get title() {

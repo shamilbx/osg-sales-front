@@ -65,7 +65,7 @@ function hintFor(point: ForecastPoint) {
       <template #action>
         <button
           type="button"
-          class="flex h-9 items-center gap-1.5 rounded-full bg-zinc-100/80 px-3.5 text-[13px] font-medium text-zinc-700 transition-colors hover:bg-zinc-950 hover:text-white"
+          class="flex h-9 items-center gap-1.5 rounded-full bg-zinc-100/80 px-3.5 text-[13px] font-medium text-zinc-700 transition-colors hover:bg-brand hover:text-white"
         >
           <Settings2 class="size-3.5" />
           {{ $t('Настроить') }}

@@ -388,9 +388,9 @@ const navButton =
                   cn(
                     'mx-auto grid size-9 place-items-center rounded-lg text-sm tabular-nums transition-colors disabled:pointer-events-none disabled:text-zinc-300',
                     model === toIso(viewYear, viewMonth, day)
-                      ? 'bg-zinc-950 font-semibold text-white'
+                      ? 'bg-brand font-semibold text-white'
                       : toIso(viewYear, viewMonth, day) === todayIso
-                        ? 'font-semibold text-sky-700 ring-1 ring-sky-300 hover:bg-sky-50'
+                        ? 'font-semibold text-brand ring-1 ring-brand/30 hover:bg-brand-soft'
                         : 'text-zinc-800 hover:bg-zinc-100',
                   )
                 "
@@ -413,7 +413,7 @@ const navButton =
               cn(
                 gridCell,
                 index === viewMonth
-                  ? 'bg-zinc-950 font-semibold text-white'
+                  ? 'bg-brand font-semibold text-white'
                   : 'text-zinc-800 hover:bg-zinc-100',
               )
             "
@@ -434,9 +434,9 @@ const navButton =
               cn(
                 gridCell,
                 year === viewYear
-                  ? 'bg-zinc-950 font-semibold text-white'
+                  ? 'bg-brand font-semibold text-white'
                   : year === now.getFullYear()
-                    ? 'font-semibold text-sky-700 ring-1 ring-sky-300 hover:bg-sky-50'
+                    ? 'font-semibold text-brand ring-1 ring-brand/30 hover:bg-brand-soft'
                     : 'text-zinc-800 hover:bg-zinc-100',
               )
             "
@@ -458,7 +458,7 @@ const navButton =
         <button
           type="button"
           :disabled="!allowed(todayIso)"
-          class="h-8 rounded-lg px-2.5 text-[13px] font-medium text-sky-700 transition-colors hover:bg-sky-50 disabled:pointer-events-none disabled:opacity-40"
+          class="h-8 rounded-lg px-2.5 text-[13px] font-medium text-brand transition-colors hover:bg-brand-soft disabled:pointer-events-none disabled:opacity-40"
           @click="
             ((viewYear = now.getFullYear()), (viewMonth = now.getMonth()), pick(now.getDate()))
           "

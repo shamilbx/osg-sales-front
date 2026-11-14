@@ -14,7 +14,7 @@ defineProps<{
 
 <template>
   <article
-    class="flex items-center gap-3.5 glass rounded-[24px] p-4 transition-[scale,box-shadow] duration-200 ease-out hover:scale-[1.025] hover:shadow-[0_18px_40px_-22px_rgba(16,24,40,.4)] motion-reduce:transition-none motion-reduce:hover:scale-100"
+    class="flex items-center gap-3.5 glass rounded-[18px] p-4 transition-[scale,box-shadow] duration-200 ease-out hover:scale-[1.025] hover:shadow-[0_18px_40px_-22px_rgba(16,24,40,.4)] motion-reduce:transition-none motion-reduce:hover:scale-100"
   >
     <IconTile :icon="icon" :tone="tone" />
     <div class="min-w-0">

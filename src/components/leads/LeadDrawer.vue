@@ -621,7 +621,7 @@ const actionButton =
           <button
             v-if="nextStep"
             type="button"
-            :class="cn(actionButton, 'bg-zinc-950 text-white hover:bg-zinc-800')"
+            :class="cn(actionButton, 'bg-brand text-white hover:bg-brand-dark')"
             :disabled="statusSaving"
             @click="changeStatus(nextStep.status)"
           >
@@ -683,11 +683,11 @@ const actionButton =
       <!-- Конвертация -->
       <section
         v-if="canConvert"
-        class="mb-6 flex flex-col gap-4 rounded-2xl border border-sky-200 bg-sky-50/60 p-4"
+        class="mb-6 flex flex-col gap-4 rounded-2xl border border-brand/20 bg-brand-soft/60 p-4"
       >
         <div>
           <h3 class="flex items-center gap-2 text-sm font-semibold text-zinc-950">
-            <Sparkles class="size-4 text-sky-600" />
+            <Sparkles class="size-4 text-brand" />
             {{ $t('Конвертация') }}
           </h3>
           <p class="mt-1 text-xs text-zinc-600">
@@ -716,7 +716,7 @@ const actionButton =
           <div class="flex flex-wrap gap-2">
             <button
               type="button"
-              class="h-9 rounded-xl bg-zinc-950 px-3.5 text-[13px] font-semibold text-white transition-colors hover:bg-zinc-800 disabled:opacity-60"
+              class="h-9 rounded-xl bg-brand px-3.5 text-[13px] font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
               :disabled="converting"
               @click="convert(convertDuplicate.found.company_id)"
             >
@@ -782,9 +782,7 @@ const actionButton =
         <div class="flex justify-end">
           <button
             type="button"
-            :class="
-              cn(actionButton, 'border border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100')
-            "
+            :class="cn(actionButton, 'bg-brand text-white hover:bg-brand-dark')"
             :disabled="converting"
             @click="convert()"
           >
@@ -962,7 +960,7 @@ const actionButton =
           v-if="canEdit"
           type="submit"
           form="lead-form"
-          class="h-11 rounded-xl bg-zinc-950 px-5 text-sm font-semibold text-white transition-colors hover:bg-zinc-800 disabled:opacity-60"
+          class="h-11 rounded-xl bg-brand px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
           :disabled="saving"
         >
           {{ isNew ? $t('Создать лида') : $t('Сохранить') }}

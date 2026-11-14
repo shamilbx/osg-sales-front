@@ -18,6 +18,7 @@ defineEmits<{ move: [direction: -1 | 1] }>()
 // Легкий цветной оттенок карточки по тону модуля
 const wash: Record<Tone, string> = {
   blue: 'from-sky-50/90 via-white to-white dark:from-sky-400/15',
+  red: 'from-red-50/90 via-white to-white dark:from-red-400/15',
   green: 'from-emerald-50/90 via-white to-white dark:from-emerald-400/15',
   orange: 'from-orange-50/90 via-white to-white dark:from-orange-400/15',
   pink: 'from-rose-50/90 via-white to-white dark:from-rose-400/15',
@@ -31,7 +32,7 @@ const wash: Record<Tone, string> = {
     v-bind="editing ? {} : { to: module.items[0]?.to ?? '/' }"
     :class="
       cn(
-        'group relative flex min-h-[150px] items-start gap-5 rounded-[24px] border border-zinc-200/70 bg-linear-to-br p-5 transition-all duration-200 outline-none',
+        'group relative flex min-h-[150px] items-start gap-5 rounded-[18px] border border-zinc-200/70 bg-linear-to-br p-5 transition-all duration-200 outline-none',
         wash[module.tone],
         editing
           ? 'border-dashed border-zinc-300'
@@ -61,7 +62,7 @@ const wash: Record<Tone, string> = {
     <div v-else class="absolute right-4 bottom-4 flex gap-1.5">
       <button
         type="button"
-        class="grid size-8 place-items-center rounded-lg bg-white text-zinc-600 ring-1 ring-zinc-200 transition-colors hover:bg-zinc-950 hover:text-white disabled:pointer-events-none disabled:opacity-30"
+        class="grid size-8 place-items-center rounded-lg bg-white text-zinc-600 ring-1 ring-zinc-200 transition-colors hover:bg-brand hover:text-white disabled:pointer-events-none disabled:opacity-30"
         :disabled="isFirst"
         :aria-label="$t('Переместить модуль «{name}» раньше', { name: module.title })"
         @click="$emit('move', -1)"
@@ -70,7 +71,7 @@ const wash: Record<Tone, string> = {
       </button>
       <button
         type="button"
-        class="grid size-8 place-items-center rounded-lg bg-white text-zinc-600 ring-1 ring-zinc-200 transition-colors hover:bg-zinc-950 hover:text-white disabled:pointer-events-none disabled:opacity-30"
+        class="grid size-8 place-items-center rounded-lg bg-white text-zinc-600 ring-1 ring-zinc-200 transition-colors hover:bg-brand hover:text-white disabled:pointer-events-none disabled:opacity-30"
         :disabled="isLast"
         :aria-label="$t('Переместить модуль «{name}» позже', { name: module.title })"
         @click="$emit('move', 1)"

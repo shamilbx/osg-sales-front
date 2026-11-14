@@ -42,7 +42,7 @@ onKeyStroke('Escape', () => (mobileOpen.value = false))
     <div
       :class="
         cn(
-          'glass hidden items-center justify-center overflow-hidden rounded-[24px] lg:flex',
+          'glass hidden items-center justify-center overflow-hidden rounded-[18px] lg:flex',
           sidebarCollapsed ? 'px-0' : 'px-4',
         )
       "
@@ -61,7 +61,7 @@ onKeyStroke('Escape', () => (mobileOpen.value = false))
     <!-- Шапка и меню стоят на месте, прокручивается только этот контейнер -->
     <main
       ref="content"
-      class="app-content min-h-0 min-w-0 overflow-y-auto rounded-[24px] bg-white p-4 sm:p-5"
+      class="app-content min-h-0 min-w-0 overflow-y-auto rounded-[18px] p-1 sm:p-1.5"
     >
       <slot />
     </main>

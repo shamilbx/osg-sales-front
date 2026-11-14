@@ -50,7 +50,7 @@ function pick(value: T) {
         cn(
           'flex h-10 items-center gap-2 rounded-xl border px-3.5 text-[13px] font-medium transition-colors',
           active
-            ? 'border-zinc-950 bg-zinc-950 text-white'
+            ? 'border-brand bg-brand text-white'
             : 'border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 hover:text-zinc-950',
         )
       "

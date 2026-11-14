@@ -23,7 +23,7 @@ const item = computed(() => allNav.find((nav) => nav.to === `/${String(route.par
       </p>
       <RouterLink
         to="/"
-        class="mt-6 inline-flex h-11 items-center rounded-2xl bg-zinc-950 px-5 text-sm font-medium text-white transition-colors hover:bg-zinc-800"
+        class="mt-6 inline-flex h-11 items-center rounded-2xl bg-brand px-5 text-sm font-medium text-white transition-colors hover:bg-brand-dark"
       >
         {{ $t('Вернуться на дашборд') }}
       </RouterLink>
